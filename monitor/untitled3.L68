@@ -1,0 +1,1271 @@
+00000100 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.04
+Created On: 6/06/2017 7:29:54 p.m.
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Operating system : babyMON
+00000000                             3  * Written by       : Logan Turner
+00000000                             4  * Date             : March 2014
+00000000                             5  * Description      : monitor program for a 68k-based microcomputer
+00000000                             6  *-----------------------------------------------------------
+00000000                             7  
+00000000                             8  
+00000000                             9  ****************************************************************
+00000000                            10  * Assembly Constants:   (Note the offsets to account for no A0)
+00000000                            11  *
+00000000  =00100000                 12  DUART       EQU     $100000     loaded in A0 when needed, regs are offsets
+00000000  =00000001                 13  MR1A        EQU     1   Mode Register1
+00000000  =00000001                 14  MR2A        EQU     1   points here after MR1A is set
+00000000  =00000003                 15  SRA         EQU     3   Status Register (read)
+00000000  =00000003                 16  CSRA        EQU     3   Clock Select Register
+00000000  =00000005                 17  CRA         EQU     5   Command Register
+00000000  =00000007                 18  TBA         EQU     7   Transfer Holding Register
+00000000  =00000007                 19  RBA         EQU     7   Receive Holding Register
+00000000  =00000009                 20  ACR         EQU     9   Auxiliary control register
+00000000  =00000000                 21  RxRDY       EQU     0   Recieve ready bit position
+00000000  =00000002                 22  TxRDY       EQU     2   Transmit ready bit position
+00000000  =00000005                 23  TestBRG     EQU     5   Test BRG register
+00000000  =00000066                 24  BAUD        EQU     $66   baud rate value = 115,200 baud
+00000000                            25  *
+00000000  =0000000D                 26  CR          EQU     $0D     Carriage Return
+00000000  =0000000A                 27  LF          EQU     $0A     Line Feed
+00000000  =0000001B                 28  ESC         EQU     $1B     Escape
+00000000  =000000F7                 29  DEL         EQU     $F7     Delete
+00000000  =00000008                 30  BS          EQU     $08     Backspace
+00000000                            31  
+00000000                            32  ****************************************************************
+00000000                            33  * Main Program
+00000000                            34  *
+00000000  =00080800                 35  STACK       EQU     $80800      RAM location for stack
+00000000  =00081000                 36  PGMSTART    EQU     $81000      RAM location for uploaded S-Record
+00000000  =00080900                 37  REGISTER_HOLDING_MEMORY EQU $80900 RAM location for holding modified register values
+00000000                            38  
+00000000                            39  START       ORG     $000000
+00000000= 00080800                  40              DC.L    STACK
+00000004= 00000100                  41              DC.L    MAIN
+00000008                            42  
+00000050                            43              ORG     $50
+00000050  4EF9 0000087C             44              JMP     PSTRING
+00000056                            45              
+00000100                            46              ORG     $000100        
+00000100  4EB9 000007D2             47  MAIN        JSR     INIT_DUART  Initialize DUART
+00000106  13FC 00FF 00081000        48              MOVE.B  #$FF,PGMSTART Set flag for S-Record upload
+0000010E  6000 0002                 49              BRA     MENU
+00000112                            50  
+00000112                            51  ****************************************************************
+00000112                            52  * Menu
+00000112                            53  *
+00000112  =00000112                 54  MENU        EQU     *
+00000112                            55  * Set default option
+00000112                            56  * Clear screen
+00000112                            57  * Draw banner
+00000112                            58  * Draw logo and options
+00000112                            59  * Draw carat
+00000112                            60  * Wait for character
+00000112                            61  * If ENTER, jump to option
+00000112                            62  * If arrow, change option
+00000112  7400                      63              MOVE.L  #00,D2              D2 represents which option is selected
+00000114  6100 07F0                 64  MENU1       BSR     CLRSCREEN
+00000118  49FA 0A43                 65              LEA     MENUBANNER(PC),A4   Draw menu
+0000011C  6100 075E                 66              BSR     PSTRING
+00000120  49FA 0B44                 67              LEA     MENUSCREEN(PC),A4
+00000124  6100 0756                 68              BSR     PSTRING
+00000128  49FA 0D1C                 69              LEA     OP1CARAT(PC),A4
+0000012C  B43C 0000                 70              CMP.B   #00,D2              Option 1 (registers) selected?
+00000130  6700 001E                 71              BEQ     MENU2
+00000134  49FA 0D26                 72              LEA     OP2CARAT(PC),A4
+00000138  B43C 0001                 73              CMP.B   #01,D2              Option 2 (memory) selected?
+0000013C  6700 0012                 74              BEQ     MENU2
+00000140  49FA 0D3E                 75              LEA     OP3CARAT(PC),A4
+00000144  B43C 0002                 76              CMP.B   #02,D2              Option 3 (s-record) selected?
+00000148  6700 0006                 77              BEQ     MENU2
+0000014C  49FA 0D67                 78              LEA     OP4CARAT(PC),A4     Option 4 (jump to program) must be selected
+00000150  6100 072A                 79  MENU2       BSR     PSTRING
+00000154  6100 06E4                 80              BSR     GCHAR
+00000158  B03C 000D                 81              CMP.B   #CR,D0               Get a character from user
+0000015C  6700 0024                 82              BEQ     MENU7               ENTER was hit
+00000160  B03C 0061                 83              CMP.B   #'a',D0
+00000164  6600 0004                 84              BNE     MENU3
+00000168  5402                      85              ADD.B   #02,D2              If 'a' was hit, go backwards
+0000016A  B03C 0077                 86  MENU3       CMP.B   #'w',D0
+0000016E  6600 0004                 87              BNE     MENU4
+00000172  5402                      88              ADD.B   #02,D2              If 'w' was hit, go backwards
+00000174  5202                      89  MENU4       ADD.B   #01,D2              Any other key goes forwards
+00000176  B43C 0003                 90              CMP.B   #03,D2
+0000017A  6F00 0004                 91              BLE     MENU6
+0000017E  5902                      92              SUB.B   #04,D2              If option selector is out of range, subtract 4
+00000180  6092                      93  MENU6       BRA     MENU1
+00000182  B43C 0000                 94  MENU7       CMP.B   #00,D2
+00000186  6700 0022                 95              BEQ     MODREG              Branch to option 1 (registers)
+0000018A  B43C 0001                 96              CMP.B   #01,D2
+0000018E  6700 0198                 97              BEQ     MODMEM              Branch to option 2 (memory)
+00000192  B43C 0002                 98              CMP.B   #02,D2
+00000196  6700 04CE                 99              BEQ     LDSREC              Branch to option 3 (load s-record)
+0000019A  B43C 0003                100              CMP.B   #03,D2
+0000019E  6600 FF72                101              BNE     MENU                Something went wrong, restart menu
+000001A2  6000 05FC                102              BRA     JMPPGM              Option 4, jump to program
+000001A6  6000 FF6A                103              BRA     MENU
+000001AA                           104  
+000001AA                           105  ****************************************************************
+000001AA                           106  * Modify Registers
+000001AA                           107  *
+000001AA  =000001AA                108  MODREG      EQU     *
+000001AA  23C8 00080B80            109              MOVE.L  A0,$80B80           Load register values into reserved memory locations
+000001B0  23C9 00080B84            110              MOVE.L  A1,$80B84
+000001B6  23CA 00080B88            111              MOVE.L  A2,$80B88
+000001BC  23CB 00080B8C            112              MOVE.L  A3,$80B8C
+000001C2  23CC 00080B90            113              MOVE.L  A4,$80B90
+000001C8  23CD 00080B94            114              MOVE.L  A5,$80B94
+000001CE  23CE 00080B98            115              MOVE.L  A6,$80B98
+000001D4  23CF 00080B9C            116              MOVE.L  A7,$80B9C
+000001DA  23C0 00080C40            117              MOVE.L  D0,$80C40
+000001E0  23C1 00080C44            118              MOVE.L  D1,$80C44
+000001E6  23C2 00080C48            119              MOVE.L  D2,$80C48
+000001EC  23C3 00080C4C            120              MOVE.L  D3,$80C4C
+000001F2  23C4 00080C50            121              MOVE.L  D4,$80C50
+000001F8  23C5 00080C54            122              MOVE.L  D5,$80C54
+000001FE  23C6 00080C58            123              MOVE.L  D6,$80C58
+00000204  23C7 00080C5C            124              MOVE.L  D7,$80C5C
+0000020A  6100 06FA                125              BSR     CLRSCREEN
+0000020E  49FA 0981                126              LEA     REGBANNER(PC),A4    Draw banner
+00000212  6100 0668                127              BSR     PSTRING
+00000216  49FA 0CE7                128  registerLoop LEA    REGINSTRUCT(PC),A4  Display instructions
+0000021A  6100 0660                129              BSR     PSTRING
+0000021E  247C 00080900            130              MOVE.L  #REGISTER_HOLDING_MEMORY,A2 Load the base holding address
+00000224  7402                     131              MOVE.L  #2,D2               Pass argument to subroutine: get 2 nibbles
+00000226  6100 00AC                132              BSR     getRegisterNibbles  Get two hex digits from the user (or ESC to end)
+0000022A  49FA 0D93                133              LEA     REGCOLON(PC),A4
+0000022E  6100 064C                134              BSR     PSTRING             Print the colon
+00000232  E54B                     135              LSL     #2,D3               Shift the register name by two bits
+00000234  D5C3                     136              ADD.L   D3,A2               Add the register name to the base address to get the register's holding address
+00000236  3412                     137              MOVE.W  (A2),D2             Copy the top word at that location into a data register
+00000238  6100 0724                138              BSR     BinaryToAsciiHex    Convert data into ASCII hex characters
+0000023C  7800                     139              MOVE.L  #0,D4               Pass argument: 0 for no space in between words
+0000023E  6100 079C                140              BSR     Print4AsciiHex      Display value at corresponding location
+00000242  2412                     141              MOVE.L  (A2),D2             Copy the whole word into a data register
+00000244  6100 0718                142              BSR     BinaryToAsciiHex    Convert
+00000248  6100 0792                143              BSR     Print4AsciiHex      Print
+0000024C  49FA 0D4B                144              LEA     REGPROMPT(PC),A4    Load user prompt
+00000250  6100 062A                145              BSR     PSTRING             Print user prompt
+00000254  7408                     146              MOVE.L  #8,D2               Pass argument to subroutine: get 8 nibbles
+00000256  6100 007C                147              BSR     getRegisterNibbles  Get data from user (or ENTER to cancel or ESC to end)
+0000025A  2483                     148              MOVE.L  D3,(A2)             Write data to that memory location
+0000025C  49FA 0D16                149              LEA     REGCONFIRM(PC),A4
+00000260  6100 061A                150              BSR     PSTRING             Confirm entered value or cancellation
+00000264  60B0                     151              BRA     registerLoop        Repeat loop
+00000266  49FA 0D36                152  registerError LEA   REGERROR(PC),A4     Display error message
+0000026A  6100 0610                153              BSR     PSTRING
+0000026E  60A6                     154              BRA     registerLoop        Loop back
+00000270  2079 00080B80            155  registerEnd MOVE.L  $80B80,A0           Write reserved memory locations back into registers
+00000276  2279 00080B84            156              MOVE.L  $80B84,A1
+0000027C  2479 00080B88            157              MOVE.L  $80B88,A2
+00000282  2679 00080B8C            158              MOVE.L  $80B8C,A3
+00000288  2879 00080B90            159              MOVE.L  $80B90,A4
+0000028E  2A79 00080B94            160              MOVE.L  $80B94,A5
+00000294  2C79 00080B98            161              MOVE.L  $80B98,A6
+0000029A  2E79 00080B9C            162              MOVE.L  $80B9C,A7
+000002A0  2039 00080C40            163              MOVE.L  $80C40,D0
+000002A6  2239 00080C44            164              MOVE.L  $80C44,D1
+000002AC  2439 00080C48            165              MOVE.L  $80C48,D2
+000002B2  2639 00080C4C            166              MOVE.L  $80C4C,D3
+000002B8  2839 00080C50            167              MOVE.L  $80C50,D4
+000002BE  2A39 00080C54            168              MOVE.L  $80C54,D5
+000002C4  2C39 00080C58            169              MOVE.L  $80C58,D6
+000002CA  2E39 00080C5C            170              MOVE.L  $80C5C,D7
+000002D0  6000 FE40                171              BRA     MENU
+000002D4                           172              
+000002D4  =000002D4                173  getRegisterNibbles  EQU     *
+000002D4                           174  * Collects between 0 and 8 nibbles from the input, returning binary numbers
+000002D4                           175  * Inputs:   D2 = # of nibbles to get
+000002D4                           176  * Outputs:  D3 = data stored in a longword
+000002D4  48E7 E000                177              MOVEM.L     D0-D2,-(SP)     Store on stack
+000002D8  7600                     178              MOVE.L      #0,D3           Clear D3
+000002DA  B43C 0000                179  nibbleLoop2 CMP.B       #0,D2           Out of nibbles?
+000002DE  6700 0042                180              BEQ         nibblesDone2    Done
+000002E2  E99B                     181              ROL.L       #4,D3           Rotate result up by one nibble
+000002E4  6100 0554                182              BSR         GCHAR           Get next char
+000002E8  B03C 001B                183              CMP.B       #ESC,D0         Compare with ESC
+000002EC  6700 001C                184              BEQ         nibblesEsc      If so, escape
+000002F0  B03C 000D                185              CMP.B       #CR,D0          Compare with CR
+000002F4  6700 001C                186              BEQ         nibblesCr       If so, loop back
+000002F8  6100 0572                187              BSR         PCHAR           Print it
+000002FC  6100 062A                188              BSR         HexToBinary     Convert to binary number
+00000300  6500 0018                189              BCS         nibblesError2   If it cannot, error
+00000304  D601                     190              ADD.B       D1,D3           Add lower nibble
+00000306  5342                     191              SUB         #1,D2           Decrement the number of nibbles left
+00000308  60D0                     192              BRA         nibbleLoop2     Repeat
+0000030A  4CDF 0007                193  nibblesEsc  MOVEM.L     (SP)+,D0-D2     Retrieve from stack
+0000030E  6000 FF60                194              BRA         registerEnd     Finish the register modify process
+00000312  4CDF 0007                195  nibblesCr   MOVEM.L     (SP)+,D0-D2     Retrieve from stack
+00000316  6000 FEFE                196              BRA         registerLoop    Loop back to the beginning
+0000031A  4CDF 0007                197  nibblesError2 MOVEM.L   (SP)+,D0-D2     Retrieve from stack
+0000031E  6000 FF46                198              BRA         registerError
+00000322  4CDF 0007                199  nibblesDone2 MOVEM.L    (SP)+,D0-D2     Retrieve from stack
+00000326  4E75                     200              RTS
+00000328                           201  
+00000328                           202  ****************************************************************
+00000328                           203  * Modify Memory
+00000328                           204  *           
+00000328                           205  *
+00000328  =00000328                206  MODMEM      EQU     *
+00000328                           207              * set up default address block, view mode, address digit
+00000328                           208              * A5 is the base address of the selected block
+00000328  2A7C 00081000            209              MOVE.L  #PGMSTART,A5
+0000032E                           210              * D3 is View/Edit toggle (00 = View, FF = Edit)
+0000032E  163C 0000                211              MOVE.B  #$00,D3
+00000332                           212              * D4 is selected digit (View mode: 00-03, Edit mode: 00-1F)
+00000332  183C 0000                213              MOVE.B  #$00,D4
+00000336                           214              * D5 is the iterating offset
+00000336                           215              * D6 is the iterating block address
+00000336  6100 011C                216  refreshMemory BSR     drawMemoryScreen
+0000033A  6100 0004                217              BSR     editMemoryCommand
+0000033E  60F6                     218              BRA     refreshMemory
+00000340                           219              
+00000340  =00000340                220  editMemoryCommand  EQU     *
+00000340                           221  * Accepts a key of input from the user and performs a command based on it
+00000340                           222  * Inputs:   A5 = base address
+00000340                           223  *           D3 = view/edit toggle
+00000340                           224  *           D4 = selected digit
+00000340                           225  * Outputs:  A5 = change base address
+00000340                           226  *           D0 = input user character
+00000340                           227  *           D3 = change between view/edit
+00000340                           228  *           D4 = change selected digit
+00000340                           229              
+00000340  6100 04F8                230              BSR     GCHAR       Get char input from user into D0
+00000344  B03C 001B                231              CMP.B   #ESC,D0     ESC = branch to menu
+00000348  6700 FDC8                232              BEQ     MENU
+0000034C  B03C 000D                233              CMP.B   #CR,D0      CR = toggle view/edit and set selected digit to $00
+00000350  6700 00A2                234              BEQ     toggleViewEdit
+00000354  B03C 0008                235              CMP.B   #BS,D0     Backspace = decrement selected digit
+00000358  6700 00B2                236              BEQ     decrementSelectedDigit
+0000035C  6100 0016                237              BSR     editDigitIfAscii 0-F = change selected digit of address or RAM and increment selected digit
+00000360  B03C 0077                238              CMP.B   #'w',D0     w = decrement base address by $10
+00000364  6700 00BC                239              BEQ     decrementBaseAddress
+00000368  B03C 0073                240              CMP.B   #'s',D0     s = increment base address by $10
+0000036C  6700 00BA                241              BEQ     incrementBaseAddress
+00000370  6000 00BC                242              BRA     incrementSelectedDigit anything else (tab, space) = increment selected digit
+00000374                           243  
+00000374  48E7 F800                244  editDigitIfAscii MOVEM.L D0-D4,-(SP) Store into stack
+00000378  6100 05AE                245              BSR     HexToBinary Convert character into nibble in D1
+0000037C  6500 0070                246              BCS     ediaDone    If carry flag is set, not an ASCII char. Done
+00000380  B67C 00FF                247              CMP     #$FF,D3     Edit mode?
+00000384  6700 0038                248              BEQ     ediaEditMode Skip
+00000388  48E7 0800                249              MOVEM.L D4,-(SP)    Store selected digit temporarily to stack
+0000038C  240D                     250              MOVE.L  A5,D2       Work with the base address in D2
+0000038E  E88A                     251              LSR.L   #4,D2       Remove the bottom nibble of the address
+00000390  6000 0006                252              BRA     ediaSkip1
+00000394  E85A                     253  ediaRor     ROR.W   #4,D2       Rotate the base address until correct nibble is showing
+00000396  5244                     254              ADD     #1,D4       Increment the selected digit until it equals 03
+00000398  B87C 0003                255  ediaSkip1   CMP     #03,D4
+0000039C  66F6                     256              BNE     ediaRor
+0000039E  C43C 00F0                257              AND.B   #$F0,D2 Clear bottom four bits of the base address
+000003A2  D401                     258              ADD.B   D1,D2       Add user input value to the base address
+000003A4  4CDF 0010                259              MOVEM.L (SP)+,D4    Retrieve selected digit from stack
+000003A8  6000 0006                260              BRA     ediaSkip2
+000003AC  E95A                     261  ediaRol     ROL.W   #4,D2       Rotate back
+000003AE  5244                     262              ADD     #1,D4
+000003B0  B87C 0003                263  ediaSkip2   CMP     #03,D4
+000003B4  66F6                     264              BNE     ediaRol
+000003B6  E98A                     265              LSL.L   #4,D2       Return useless bottom nibble
+000003B8  2A42                     266              MOVE.L  D2,A5       Put modified base address back into A5
+000003BA  6000 0032                267              BRA     ediaDone
+000003BE  48E7 0004                268  ediaEditMode MOVEM.L A5,-(SP)   Store A6 temporarily in the stack
+000003C2  E919                     269              ROL.B   #4,D1       Flip the data for the first test
+000003C4  740F                     270              MOVE.L  #$0F,D2     D2 holds the mask
+000003C6  B87C 0000                271  ediaFlip    CMP     #0,D4       Is the selected digit zero?
+000003CA  6700 001A                272              BEQ     ediaFlipDone
+000003CE  E919                     273              ROL.B   #4,D1       If not, flip D1 and D2 and subtract 1 from selected digit
+000003D0  E91A                     274              ROL.B   #4,D2
+000003D2  5344                     275              SUB     #1,D4
+000003D4  B87C 0000                276              CMP     #0,D4       Is the selected digit zero?
+000003D8  6700 000C                277              BEQ     ediaFlipDone 
+000003DC  E919                     278              ROL.B   #4,D1       If not, flip both bytes, subtract 1, and increment the address
+000003DE  E91A                     279              ROL.B   #4,D2
+000003E0  5344                     280              SUB     #1,D4
+000003E2  528D                     281              ADD.L   #1,A5       
+000003E4  60E0                     282              BRA     ediaFlip    Repeat
+000003E6  C515                     283  ediaFlipDone AND.B   D2,(A5) Clear the nibble
+000003E8  D315                     284              ADD.B   D1,(A5) Add new data
+000003EA  4CDF 2000                285              MOVEM.L (SP)+,A5    Retrieve A6
+000003EE  4CDF 001F                286  ediaDone    MOVEM.L (SP)+,D0-D4 Retrieve from stack
+000003F2  4E75                     287              RTS
+000003F4                           288  
+000003F4  B67C 0000                289  toggleViewEdit CMP  #00,D3      View mode?
+000003F8  6700 0008                290              BEQ     changeToEdit    Skip
+000003FC  7600                     291              MOVE.L  #00,D3      Else change to view mode
+000003FE  6000 0008                292              BRA     tveDone
+00000402  263C 000000FF            293  changeToEdit MOVE.L #$FF,D3     Change to edit mode
+00000408  7800                     294  tveDone     MOVE.L  #00,D4      Reset selected digit to 0
+0000040A  4E75                     295              RTS
+0000040C                           296  
+0000040C  5344                     297  decrementSelectedDigit SUB #1,D4 Subtract 1 from selected digit
+0000040E  6A00 0010                298              BPL     dsdDone     If positive, skip
+00000412  5844                     299              ADD     #$04,D4     Add $04
+00000414  B67C 0000                300              CMP     #00,D3      If view mode, skip
+00000418  6700 0006                301              BEQ     dsdDone
+0000041C  0644 001C                302              ADD     #$1C,D4     Add another $1C
+00000420  4E75                     303  dsdDone     RTS
+00000422                           304  
+00000422  9AFC 0010                305  decrementBaseAddress SUB #$10,A5 Add $10 to base address
+00000426  4E75                     306              RTS
+00000428                           307  
+00000428  DAFC 0010                308  incrementBaseAddress ADD #$10,A5 Subtract $10 from base address
+0000042C  4E75                     309              RTS
+0000042E                           310  
+0000042E  5244                     311  incrementSelectedDigit ADD #1,D4 Add 1 to selected digit
+00000430  B67C 0000                312              CMP     #00,D3      If view mode, skip
+00000434  6700 0012                313              BEQ     isdViewMode
+00000438  B87C 0020                314              CMP     #$20,D4     If less than $20, done
+0000043C  6B00 0014                315              BMI     isdDone
+00000440  0444 0020                316              SUB     #$20,D4     Subtract $20
+00000444  6000 000C                317              BRA     isdDone     Done
+00000448  B87C 0004                318  isdViewMode CMP     #$04,D4     View mode: if less than $04, done
+0000044C  6B00 0004                319              BMI     isdDone
+00000450  5944                     320              SUB     #$04,D4     Subtract $04
+00000452  4E75                     321  isdDone     RTS
+00000454                           322  
+00000454  =00000454                323  drawMemoryScreen    EQU     *
+00000454                           324  * Redraws the whole screen for the modify memory feature
+00000454                           325  * Inputs:   A5 = base address block,
+00000454                           326  *           D3 = view/edit toggle
+00000454                           327  *           D4 = selected digit
+00000454                           328              
+00000454  48E7 0700                329              MOVEM.L   D5-D7,-(SP)         Store in stack
+00000458  6100 04AC                330              BSR     CLRSCREEN
+0000045C  49FA 0767                331              LEA     MEMBANNER(PC),A4    Draw banner
+00000460  6100 041A                332              BSR     PSTRING
+00000464  49FA 132E                333              LEA     MEMHEADER(PC),A4    Draw column headers
+00000468  6100 0412                334              BSR     PSTRING
+0000046C  2E0D                     335              MOVE.L  A5,D7               Use D7 as the last block address
+0000046E  2C0D                     336              MOVE.L  A5,D6               Copy base address to D6 for iteration
+00000470  0486 00000080            337              SUB.L   #$80,D6             Subtract eight rows
+00000476  6100 0030                338  MMD1        BSR     drawRow             Draw row
+0000047A  0686 00000010            339              ADD.L   #$10,D6             Go to next row
+00000480  BE46                     340              CMP     D6,D7               Different than base address?
+00000482  66F2                     341              BNE     MMD1                Do it again
+00000484  6100 0058                342              BSR     drawSpecialRow      Draw base row
+00000488  2E0D                     343              MOVE.L  A5,D7               Use D7 as the last block address
+0000048A  0647 0080                344              ADD     #$80,D7             Add eight rows to D7
+0000048E  0646 0010                345  MMD2        ADD     #$10,D6             Go to next row
+00000492  6100 0014                346              BSR     drawRow             Draw row
+00000496  BE46                     347              CMP     D6,D7               Have we reached the last row?
+00000498  66F4                     348              BNE     MMD2                If not, do it again
+0000049A  49FA 143F                349              LEA     MEMFOOTER(PC),A4    Draw column footer
+0000049E  6100 03DC                350              BSR     PSTRING
+000004A2  4CDF 00E0                351              MOVEM.L   (SP)+,D5-D7         Restore from stack
+000004A6  4E75                     352              RTS
+000004A8                           353  
+000004A8  =000004A8                354  drawRow     EQU     *
+000004A8                           355  * Draws a row of memory block address and memory byte data values for that block
+000004A8                           356  * Inputs:   D6 = block address
+000004A8                           357  
+000004A8  2F06                     358              MOVE.L  D6,-(SP)
+000004AA  2F0C                     359              MOVE.L  A4,-(SP)
+000004AC  49FA 13E6                360              LEA     NOTICKSPACE(PC),A4  Show no tick by default
+000004B0  BC3C 0000                361              CMP.B   #0,D6
+000004B4  6600 0006                362              BNE     MMDRNOTICK
+000004B8  49FA 13CD                363              LEA     TICKSPACE(PC),A4    If address block ends in #00, show tick
+000004BC  6100 03BE                364  MMDRNOTICK  BSR     PSTRING
+000004C0  6100 0150                365              BSR     drawFiveDigitAddress
+000004C4  49FA 13F5                366              LEA     COLUMNSPACE(PC),A4  Display column spacing
+000004C8  6100 03B2                367              BSR     PSTRING
+000004CC  6100 00AE                368              BSR     drawRamData
+000004D0  49FA 0552                369              LEA     CRLF(PC),A4
+000004D4  6100 03A6                370              BSR     PSTRING
+000004D8  285F                     371              MOVE.L  (SP)+,A4
+000004DA  2C1F                     372              MOVE.L  (SP)+,D6
+000004DC  4E75                     373              RTS
+000004DE                           374  
+000004DE  =000004DE                375  drawSpecialRow      EQU     *
+000004DE                           376  * Draws the row of memory that is being viewed or edited currently
+000004DE                           377  * Inputs:   D3 = view/edit toggle
+000004DE                           378  *           D4 = selected digit
+000004DE                           379  *           D6 = block address
+000004DE                           380              
+000004DE  2F0C                     381              MOVE.L  A4,-(SP)
+000004E0  49FA 13B2                382              LEA     NOTICKSPACE(PC),A4  Show no tick by default
+000004E4  BC3C 0000                383              CMP.B   #0,D6               Address end in 00?   
+000004E8  6600 0016                384              BNE     noTick              If not, skip
+000004EC  49FA 1399                385              LEA     TICKSPACE(PC),A4    Load tick
+000004F0  B63C 0000                386              CMP.B   #00,D3              View mode?
+000004F4  6600 0016                387              BNE     doneWithStupid      If not, tick only
+000004F8  49FA 13B4                388              LEA     LCARATTICK(PC),A4   Load leftCarat and tick
+000004FC  6000 000E                389              BRA     doneWithStupid      Done
+00000500  B63C 0000                390  noTick      CMP.B   #00,D3              No tick and no carat?
+00000504  6600 0006                391              BNE     doneWithStupid      Done
+00000508  49FA 1397                392              LEA     LEFTCARAT(PC),A4    Else load leftCarat only
+0000050C  6100 036E                393  doneWithStupid  BSR     PSTRING         Print
+00000510  B63C 00FF                394              CMP.B   #$FF,D3             Edit mode?
+00000514  6700 000A                395              BEQ     noSpecialAddress    Skip the selectable addressing
+00000518  6100 0116                396              BSR     drawSpecialFiveDigitAddress Draw special five-digit address
+0000051C  6000 0006                397              BRA     specialAddress      Else do it
+00000520  6100 00F0                398  noSpecialAddress BSR     drawFiveDigitAddress    Draw regular five-digit address
+00000524  49FA 13A2                399  specialAddress LEA     NORCARAT(PC),A4     Show no right carat by default
+00000528  B63C 0000                400              CMP.B   #00,D3              View mode?
+0000052C  6600 0006                401              BNE     noRightCarat        If not, no right carat
+00000530  49FA 1391                402              LEA     RCARAT(PC),A4       Else do show it
+00000534  6100 0346                403  noRightCarat BSR    PSTRING             Print
+00000538  49FA 1398                404              LEA     NOLDUBCARAT(PC),A4  Show no leftDoubleCarat by default
+0000053C  B63C 00FF                405              CMP.B   #$FF,D3             Edit mode?
+00000540  6600 0006                406              BNE     noLeftDoubleCarat   If not, no leftDoubleCarat
+00000544  49FA 1387                407              LEA     LDUBCARAT(PC),A4    Else do show it
+00000548  6100 0332                408  noLeftDoubleCarat BSR   PSTRING         Print
+0000054C  B63C 0000                409              CMP.B   #00,D3              View mode?
+00000550  6700 000A                410              BEQ     noSpecialRamData    Skip the selectable RAM data
+00000554  6100 0056                411              BSR     drawSpecialRamData  Draw selectable row of bytes from RAM
+00000558  6000 0006                412              BRA     specialRamData      Else do it
+0000055C  6100 001E                413  noSpecialRamData BSR     drawRamData         Draw regular row of bytes from RAM
+00000560  B63C 00FF                414  specialRamData CMP.B   #$FF,D3             Edit mode?
+00000564  6600 000A                415              BNE     noRightDoubleCarat  If not, no rightDoubleCarat
+00000568  49FA 136D                416              LEA     RDUBCARAT(PC),A4    Else do show it
+0000056C  6100 030E                417              BSR     PSTRING             Print
+00000570  49FA 04B2                418  noRightDoubleCarat LEA     CRLF(PC),A4
+00000574  6100 0306                419              BSR     PSTRING
+00000578  285F                     420              MOVE.L  (SP)+,A4
+0000057A  4E75                     421              RTS
+0000057C                           422  
+0000057C  =0000057C                423  drawRamData EQU     *
+0000057C                           424  * Draws specifically the RAM data for a particular row
+0000057C                           425  * Inputs:   D6 = block address
+0000057C                           426              
+0000057C  48E7 0010                427              MOVEM.L A3,-(SP)            Store on stack
+00000580  48E7 3C00                428              MOVEM.L D2-D5,-(SP)
+00000584                           429              ; Eight times: retrieve two bytes, print two bytes
+00000584  2646                     430              MOVE.L  D6,A3               A3 is used to retrieve the data
+00000586  2A06                     431              MOVE.L  D6,D5               D5 is the last address in this row
+00000588  0645 0010                432              ADD     #$10,D5             D5 holds D6's value plus $10
+0000058C  3413                     433  getData     MOVE.W  (A3),D2             Retrieve two bytes into D2
+0000058E  6100 03CE                434              BSR     BinaryToAsciiHex    Convert into ASCII, store in D3
+00000592                           435              ; print four hex digits as two pairs with a space in between
+00000592  283C 000000FF            436              MOVE.L  #$FF,D4             Put a space when printing
+00000598  6100 0442                437              BSR     Print4AsciiHex      Print four hex characters
+0000059C                           438              ; add 2
+0000059C  544B                     439              ADD     #2,A3               Add 2 to the address
+0000059E                           440              ; if not the last address, do it again
+0000059E  BA4B                     441              CMP     A3,D5               Is this too far?
+000005A0  66EA                     442              BNE     getData             If not, do it again
+000005A2  4CDF 003C                443              MOVEM.L (SP)+,D2-D5
+000005A6  4CDF 0800                444              MOVEM.L (SP)+,A3            Restore from stack
+000005AA  4E75                     445              RTS
+000005AC                           446  
+000005AC  =000005AC                447  drawSpecialRamData EQU     *
+000005AC                           448  * Draws specifically the RAM data for a particular row
+000005AC                           449  * Inputs:   D6 = block address
+000005AC                           450  *           D4 = selected digit
+000005AC                           451              
+000005AC  48E7 0010                452              MOVEM.L A3,-(SP)            Store on stack
+000005B0  48E7 3C00                453              MOVEM.L D2-D5,-(SP)
+000005B4                           454              ; Eight times: retrieve two bytes, print two bytes
+000005B4  2646                     455              MOVE.L  D6,A3               A3 is used to retrieve the data
+000005B6  2A06                     456              MOVE.L  D6,D5               D5 is the last address in this row
+000005B8  0645 0010                457              ADD     #$10,D5             D5 holds D6's value plus $10
+000005BC  3413                     458  getSpecialData     MOVE.W  (A3),D2             Retrieve two bytes into D2
+000005BE  6100 039E                459              BSR     BinaryToAsciiHex    Convert into ASCII, store in D3
+000005C2  B87C 0000                460              CMP     #0,D4               Is D4 negative?
+000005C6  6B00 0026                461              BMI     noUnderscore        Skip underscoring
+000005CA  B87C 0004                462              CMP     #4,D4               Is D4 = 4 or greater?
+000005CE  6A00 001E                463              BPL     noUnderscore        Skip underscoring
+000005D2  48E7 0800                464              MOVEM.L D4,-(SP)            Temporarily store D4
+000005D6  E19B                     465  rotateRamLeft ROL.L   #8,D3             Rotate left
+000005D8  5344                     466              SUB     #1,D4               Subtract 1 from D4
+000005DA  6AFA                     467              BPL     rotateRamLeft       If negative continue, else repeat
+000005DC  163C 005F                468              MOVE.B  #'_',D3             Replace byte with '_'
+000005E0  4CD7 0010                469              MOVEM.L (SP),D4             Copy D4 from stack
+000005E4  E09B                     470  rotateRamRight ROR.L   #8,D3            Rotate right
+000005E6  5344                     471              SUB     #1,D4               Subtract 1 from D4
+000005E8  6AFA                     472              BPL     rotateRamRight      If negative continue, else repeat
+000005EA  4CDF 0010                473              MOVEM.L (SP)+,D4            Retrieve D4 from stack
+000005EE  48E7 0800                474  noUnderscore MOVEM.L D4,-(SP)            Temporarily store D4
+000005F2  283C 000000FF            475              MOVE.L  #$FF,D4            Put a space when printing
+000005F8  6100 03E2                476              BSR     Print4AsciiHex      Print four hex characters
+000005FC  4CDF 0010                477              MOVEM.L (SP)+,D4            Retrieve D4 from stack
+00000600  544B                     478              ADD     #2,A3               Add 2 to the address
+00000602  5944                     479              SUB     #4,D4               Subtract 4 from D4
+00000604  BA4B                     480              CMP     A3,D5               Is this too far?
+00000606  66B4                     481              BNE     getSpecialData      If not, do it again
+00000608  4CDF 003C                482              MOVEM.L (SP)+,D2-D5
+0000060C  4CDF 0800                483              MOVEM.L (SP)+,A3            Restore from stack
+00000610  4E75                     484              RTS
+00000612                           485  
+00000612  =00000612                486  drawFiveDigitAddress   EQU     *
+00000612                           487  * Prints a five-digit address
+00000612                           488  * Inputs:   D6 = block address
+00000612                           489              
+00000612  48E7 F800                490              MOVEM.L   D0-D4,-(SP)         Store in stack
+00000616  2406                     491              MOVE.L  D6,D2               Move address into input for conversion subroutine
+00000618  E89A                     492              ROR.L   #4,D2               Rotate last useless nibble out of the way
+0000061A  6100 0342                493              BSR     BinaryToAsciiHex    Convert to ASCII, store in D3
+0000061E  7800                     494              MOVE.L  #0,D4               No space in between when printing
+00000620  6100 03BA                495              BSR     Print4AsciiHex      Print
+00000624  7030                     496              MOVE.L  #'0',D0             Load trailing '0' into print input
+00000626  6100 0244                497              BSR     PCHAR               Print
+0000062A  4CDF 001F                498              MOVEM.L   (SP)+,D0-D4         Restore from stack
+0000062E  4E75                     499              RTS
+00000630                           500              
+00000630  =00000630                501  drawSpecialFiveDigitAddress   EQU     *
+00000630                           502  * Prints a five-digit address
+00000630                           503  * Inputs:   D6 = block address
+00000630                           504  *           D4 = selected digit
+00000630                           505              
+00000630  48E7 F800                506              MOVEM.L   D0-D4,-(SP)         Store in stack
+00000634  2406                     507              MOVE.L  D6,D2               Move address into input for conversion subroutine
+00000636  E89A                     508              ROR.L   #4,D2               Rotate last useless nibble out of the way
+00000638  6100 0324                509              BSR     BinaryToAsciiHex    Convert to ASCII, store in D3
+0000063C  48E7 0800                510              MOVEM.L D4,-(SP)            Store D4 on the stack
+00000640  E19B                     511  rotateLeft  ROL.L   #8,D3               Rotate left
+00000642  5344                     512              SUB     #1,D4               Subtract 1 from D4
+00000644  6AFA                     513              BPL     rotateLeft          If negative continue, else repeat
+00000646  163C 005F                514              MOVE.B  #'_',D3             Replace byte with '_'
+0000064A  4CDF 0010                515              MOVEM.L (SP)+,D4            Restore D4 from stack
+0000064E  E09B                     516  rotateRight ROR.L   #8,D3               Rotate right
+00000650  5344                     517              SUB     #1,D4               Subtract 1 from D4
+00000652  6AFA                     518              BPL     rotateRight         If negative continue, else repeat
+00000654  7800                     519              MOVE.L  #0,D4               No space in between when printing
+00000656  6100 0384                520              BSR     Print4AsciiHex      Print
+0000065A  7030                     521              MOVE.L  #'0',D0             Load trailing '0' into print input
+0000065C  6100 020E                522              BSR     PCHAR               Print
+00000660  4CDF 001F                523              MOVEM.L   (SP)+,D0-D4         Restore from stack
+00000664  4E75                     524              RTS
+00000666                           525  
+00000666                           526  ****************************************************************
+00000666                           527  * Load S-Record
+00000666                           528  *
+00000666  =00000666                529  LDSREC      EQU     *
+00000666  6100 029E                530              BSR     CLRSCREEN           Clear the screen
+0000066A  49FA 05C4                531              LEA     SRBANNER(PC),A4     Display banner
+0000066E  6100 020C                532              BSR     PSTRING
+00000672  43F9 00081000            533              LEA     PGMSTART,A1         Starting location in A1
+00000678  49FA 1347                534              LEA     SRREADY(PC),A4      Display ready text
+0000067C  6100 01FE                535              BSR     PSTRING
+00000680  6100 01B8                536  recordLoop  BSR     GCHAR               Get first char
+00000684  6100 01E6                537              BSR     PCHAR               Print it out
+00000688  B03C 0053                538              CMP.B   #'S',D0             Is first character an S?
+0000068C  6600 008C                539              BNE     recordsError        If not, error
+00000690  6100 01A8                540              BSR     GCHAR               Get next char
+00000694  6100 01D6                541              BSR     PCHAR               Print it out
+00000698  B03C 0030                542              CMP.B   #'0',D0             Is it type 0?
+0000069C  6700 0016                543              BEQ     type0record         Handle the type 0
+000006A0  B03C 0031                544              CMP.B   #'1',D0             Is it type 1?
+000006A4  6700 0034                545              BEQ     type1record         Handle the type 1
+000006A8  B03C 0038                546              CMP.B   #'8',D0             Is it type 8?
+000006AC  6700 004C                547              BEQ     type8record         Handle the type 8
+000006B0  6000 0068                548              BRA     recordsError        Else error
+000006B4  7402                     549  type0record MOVE.L  #2,D2               
+000006B6  6100 0072                550              BSR     getNibbles          Get byte count
+000006BA  5743                     551              SUB     #3,D3               Subtract the checksum and address bytes
+000006BC  2803                     552              MOVE.L  D3,D4               Store byte count in D4
+000006BE  7404                     553              MOVE.L  #4,D2
+000006C0  6100 0068                554              BSR     getNibbles          Get address
+000006C4  2404                     555              MOVE.L  D4,D2
+000006C6  6100 0062                556              BSR     getNibbles          Throw away all data bytes from type 0 record
+000006CA  6100 005E                557              BSR     getNibbles
+000006CE  7402                     558              MOVE.L  #2,D2
+000006D0  6100 0058                559              BSR     getNibbles          Throw away last checksum byte
+000006D4  6100 00A4                560              BSR     getEndLine          End of record line
+000006D8  60A6                     561              BRA     recordLoop          Next record
+000006DA  7402                     562  type1record MOVE.L  #2,D2               
+000006DC  6100 004C                563              BSR     getNibbles          Get byte count
+000006E0  5743                     564              SUB     #3,D3               Subtract the checksum and address bytes
+000006E2  2803                     565              MOVE.L  D3,D4               Store the byte count in D4
+000006E4  7404                     566              MOVE.L  #4,D2
+000006E6  6100 0042                567              BSR     getNibbles          Get address
+000006EA  6100 0068                568              BSR     getAndWriteBytes    Perform the data writing
+000006EE  7402                     569              MOVE.L  #2,D2
+000006F0  6100 0038                570              BSR     getNibbles          Throw away last checksum byte
+000006F4  6100 0084                571              BSR     getEndLine          End of record line
+000006F8  6086                     572              BRA     recordLoop
+000006FA  7402                     573  type8record MOVE.L  #2,D2
+000006FC  6100 002C                574              BSR     getNibbles          Get byte count
+00000700  2403                     575              MOVE.L  D3,D2               
+00000702  6100 0026                576              BSR     getNibbles          Throw away all the data
+00000706  6100 0022                577              BSR     getNibbles
+0000070A  6100 006E                578              BSR     getEndLine
+0000070E  49FA 1332                579  recordsDone LEA     SRCOMPLETE(PC),A4   Display success message
+00000712  6100 0168                580              BSR     PSTRING
+00000716  6000 000A                581              BRA     recordsEnd
+0000071A  49FA 1357                582  recordsError LEA    SRERROR(PC),A4      Display error message
+0000071E  6100 015C                583              BSR     PSTRING
+00000722  6100 0116                584  recordsEnd  BSR     GCHAR               Wait for user aproval
+00000726  6000 F9EA                585              BRA     MENU
+0000072A                           586  
+0000072A  =0000072A                587  getNibbles  EQU     *
+0000072A                           588  * Collects between 0 and 8 nibbles from the input, returning binary numbers
+0000072A                           589  * Inputs:   D2 = # of nibbles to get
+0000072A                           590  * Outputs:  D3 = data stored in a longword
+0000072A  48E7 E000                591              MOVEM.L     D0-D2,-(SP)     Store on stack
+0000072E  7600                     592              MOVE.L      #0,D3           Clear D3
+00000730  B43C 0000                593  nibbleLoop  CMP.B       #0,D2           Out of nibbles?
+00000734  6700 0018                594              BEQ         nibblesDone     Done
+00000738  E99B                     595              ROL.L       #4,D3           Rotate result up by one nibble
+0000073A  6100 00FE                596              BSR         GCHAR           Get next char
+0000073E  6100 012C                597              BSR         PCHAR           Print it
+00000742  6100 01E4                598              BSR         HexToBinary     Convert to binary number
+00000746  65D2                     599              BCS         recordsError    If it cannot, error
+00000748  D601                     600              ADD.B       D1,D3           Add lower nibble
+0000074A  5342                     601              SUB         #1,D2           Decrement the number of nibbles left
+0000074C  60E2                     602              BRA         nibbleLoop      Repeat
+0000074E  4CDF 0007                603  nibblesDone MOVEM.L     (SP)+,D0-D2     Retrieve from stack
+00000752  4E75                     604              RTS
+00000754                           605  
+00000754  =00000754                606  getAndWriteBytes EQU *
+00000754                           607  * Gets bytes from input and writes them to the correct location in memory
+00000754                           608  * Inputs:   A1 = base location
+00000754                           609  *           D3 = location offset for this record line
+00000754                           610  *           D4 = number of bytes to write
+00000754  48E7 0040                611              MOVEM.L     A1,-(SP)        Store on stack
+00000758  48E7 0800                612              MOVEM.L     D4,-(SP)
+0000075C  D3C3                     613              ADD.L       D3,A1           Add offset to base location
+0000075E  B83C 0000                614  writeLoop   CMP.B       #0,D4           No bytes left to write?
+00000762  6700 000C                615              BEQ         writingDone     Done
+00000766  7402                     616              MOVE.L      #2,D2
+00000768  61C0                     617              BSR         getNibbles      Get a byte from input
+0000076A  12C3                     618              MOVE.B      D3,(A1)+        Write it to memory and increment address
+0000076C  5344                     619              SUB         #1,D4           Decrement bytes left
+0000076E  60EE                     620              BRA         writeLoop
+00000770  4CDF 0010                621  writingDone MOVEM.L     (SP)+,D4
+00000774  4CDF 0200                622              MOVEM.L     (SP)+,A1        Restore from stack
+00000778  4E75                     623              RTS
+0000077A                           624  
+0000077A  =0000077A                625  getEndLine  EQU     *
+0000077A                           626  * Makes sure the line ends properly
+0000077A                           627  * Inputs:
+0000077A                           628  * Outputs:
+0000077A  48E7 8000                629              MOVEM.L     D0,-(SP)        Store on stack
+0000077E  6100 00BA                630              BSR         GCHAR           Get a character
+00000782  6100 00E8                631              BSR         PCHAR           Print it
+00000786  B03C 000D                632              CMP.B       #CR,D0          Is it a carriage return?
+0000078A  668E                     633              BNE         recordsError    If not, error
+0000078C  6100 00AC                634              BSR         GCHAR           Get the second character
+00000790  6100 00DA                635              BSR         PCHAR           Print it
+00000794  B03C 000A                636              CMP.B       #LF,D0          Is it a line feed?
+00000798  6680                     637              BNE         recordsError    If not, error
+0000079A  4CDF 0001                638              MOVEM.L     (SP)+,D0        Return from stack
+0000079E  4E75                     639              RTS
+000007A0                           640  
+000007A0                           641  ****************************************************************
+000007A0                           642  * Jump to Program
+000007A0                           643  *
+000007A0  =000007A0                644  JMPPGM      EQU     *
+000007A0  6100 0164                645              BSR     CLRSCREEN
+000007A4  0C39 00FF 00081000       646              CMP.B   #$FF,PGMSTART
+000007AC  6700 000C                647              BEQ     JMPPGM1
+000007B0  4EB9 00081000            648              JSR     PGMSTART
+000007B6  6000 F95A                649              BRA     MENU
+000007BA  49FA 043D                650  JMPPGM1     LEA     PGMBANNER(PC),A4    Draw banner
+000007BE  6100 00BC                651              BSR     PSTRING
+000007C2  49FA 1195                652              LEA     PGMNOTLD(PC),A4     Draw "program not found" screen
+000007C6  6100 00B4                653              BSR     PSTRING
+000007CA  6100 006E                654              BSR     GCHAR
+000007CE  6000 F942                655              BRA     MENU
+000007D2                           656  
+000007D2                           657  ****************************************************************
+000007D2                           658  * Initialize DUART
+000007D2                           659  *
+000007D2  =000007D2                660  INITDSIM    EQU     *
+000007D2  123C 0000                661              MOVE.B  #$00,D1
+000007D6  103C 000C                662              MOVE.B  #12,D0
+000007DA  4E4E                     663              TRAP        #14
+000007DC  4E75                     664              RTS
+000007DE                           665  
+000007DE  =000007DE                666  INITDHAR    EQU     *
+000007DE  41F9 00100000            667              LEA         DUART,A0        A0 points to base DUART address
+000007E4                           668  
+000007E4                           669  ; Software reset:
+000007E4  117C 0030 0005           670              MOVE.B      #$30,CRA(A0)    Reset TxA
+000007EA  117C 0020 0005           671              MOVE.B      #$20,CRA(A0)    Reset RxA
+000007F0  117C 0010 0005           672              MOVE.B      #$10,CRA(A0)    Reset MRA pointer
+000007F6                           673  
+000007F6                           674  ; Initialization:
+000007F6  0C28 0000 0005           675              CMP.B       #0,TestBRG(A0)  Toggle BRG test mode
+000007FC  117C 0080 0009           676              MOVE.B      #$80,ACR(A0)    selects baud rate set 2
+00000802  117C 0066 0003           677              MOVE.B      #BAUD,CSRA(A0)      set 19.2k baud Rx/Tx
+00000808  117C 0013 0001           678              MOVE.B      #$13,MR1A(A0)       8-bits, no parity, 1 stop bit
+0000080E                           679  
+0000080E                           680  ; This is the most important register to set in the 68681 DUART.
+0000080E                           681  ; 07 sets: Normal mode, CTS and RTS disabled, stop bit length = 1
+0000080E                           682  ; For testing load $#47 to enable auto-echo
+0000080E  117C 0007 0001           683              MOVE.B  #$07,MR2A(A0)   
+00000814                           684  
+00000814  117C 0005 0005           685              MOVE.B  #$05,CRA(A0)    enable Tx and Rx
+0000081A  4E75                     686              RTS
+0000081C                           687              
+0000081C                           688  ****************************************************************
+0000081C                           689  * I/O Subroutines
+0000081C                           690  
+0000081C                           691  * Input a single character from port A (polled mode) into D0
+0000081C                           692  
+0000081C  =0000081C                693  GCHARHAR    EQU         *
+0000081C  2F01                     694              MOVE.L      D1,-(SP)
+0000081E  2F09                     695              MOVE.L      A1,-(SP)
+00000820  41F9 00100000            696              LEA         DUART,A0
+00000826  1228 0003                697  Input_poll  MOVE.B      SRA(A0),D1
+0000082A  0801 0000                698              BTST        #RxRDY,D1
+0000082E  67F6                     699              BEQ         Input_poll
+00000830  1028 0007                700              MOVE.B      RBA(A0),D0
+00000834  205F                     701              MOVE.L      (SP)+,A0
+00000836  221F                     702              MOVE.L      (SP)+,D1
+00000838                           703              *BSR         PCHAR       Echo Input
+00000838  4E75                     704              RTS
+0000083A                           705  
+0000083A  =0000083A                706  GCHARSIM    EQU         *
+0000083A  2F01                     707              MOVE.L  D1, -(SP)   
+0000083C  7005                     708              MOVE.L  #05, D0
+0000083E  4E4F                     709              TRAP        #15     
+00000840  1001                     710              MOVE.B  D1, D0
+00000842  221F                     711              MOVE.L  (SP)+,D1
+00000844                           712              *BSR         PCHAR       Echo Input
+00000844  4E75                     713              RTS
+00000846                           714  
+00000846                           715  * Transmit a single character in D0 from Port A (polled mode)
+00000846                           716  
+00000846  48E7 C000                717  PCHARHAR    MOVEM.L       D0-D1,-(SP)
+0000084A  48E7 0080                718              MOVEM.L       A0,-(SP)
+0000084E  41F9 00100000            719              LEA         DUART,A0
+00000854  1228 0003                720  Output_poll MOVE.B      SRA(A0),D1
+00000858  0801 0002                721              BTST        #TxRDY,D1
+0000085C  67F6                     722              BEQ         Output_poll
+0000085E  1140 0007                723              MOVE.B      D0,TBA(A0)
+00000862  4CDF 0100                724              MOVEM.L       (SP)+,A0
+00000866  4CDF 0003                725              MOVEM.L       (SP)+,D0-D1
+0000086A  4E75                     726              RTS
+0000086C                           727      
+0000086C  =0000086C                728  PCHARSIM    EQU         *
+0000086C  48E7 C000                729              MOVEM.L D0-D1, -(SP)
+00000870  1200                     730              MOVE.B  D0, D1  
+00000872  7006                     731              MOVE.L  #06, D0 
+00000874  4E4F                     732              TRAP        #15 
+00000876  4CDF 0003                733              MOVEM.L (SP)+,D0-D1
+0000087A  4E75                     734              RTS
+0000087C                           735  
+0000087C                           736  * Display the string pointed at by A4
+0000087C                           737  
+0000087C  =0000087C                738  PSTRING     EQU         *
+0000087C  48E7 8000                739              MOVEM.L       D0,-(SP)
+00000880  48E7 0008                740              MOVEM.L       A4,-(SP)
+00000884  101C                     741  PS1         MOVE.B      (A4)+,D0
+00000886  6706                     742              BEQ.S       PS2
+00000888  6100 FFE2                743              BSR         PCHAR
+0000088C  60F6                     744              BRA         PS1
+0000088E  4CDF 1000                745  PS2         MOVEM.L       (SP)+,A4
+00000892  4CDF 0001                746              MOVEM.L       (SP)+,D0
+00000896  4E75                     747              RTS
+00000898                           748  
+00000898                           749  * Move cursor to start of newline
+00000898                           750  
+00000898  =00000898                751  NEWLINE     EQU         *
+00000898  48E7 0008                752              MOVEM.L     A4,-(A7)
+0000089C  49FA 0186                753              LEA         CRLF(PC),A4
+000008A0  61DA                     754              BSR         PSTRING
+000008A2  4CDF 1000                755              MOVEM.L     (A7)+,A4
+000008A6  4E75                     756              RTS
+000008A8                           757  
+000008A8                           758  * Print string with newline
+000008A8                           759  
+000008A8  61EE                     760  HEADING     BSR         NEWLINE
+000008AA  61D0                     761              BSR         PSTRING
+000008AC  60EA                     762              BRA         NEWLINE
+000008AE                           763  
+000008AE                           764  * Get line of input from user
+000008AE                           765  
+000008AE  =000008AE                766  GETLINE     EQU         *
+000008AE  48E7 0008                767              MOVEM.L     A4,-(A7)
+000008B2  49FA 0177                768              LEA         PROMPT(PC),A4
+000008B6  61C4                     769              BSR         PSTRING         Print prompt character
+000008B8  4CDF 1000                770              MOVEM.L     (A7)+,A4
+000008BC  6100 FF7C                771  GETL1       BSR         GCHAR
+000008C0  60FA                     772              BRA         GETL1
+000008C2                           773  
+000008C2                           774  * Get a single numeric character between 1 and 4 from user
+000008C2                           775  
+000008C2  =000008C2                776  GETNUM      EQU         *
+000008C2  48E7 0008                777              MOVEM.L     A4,-(A7)
+000008C6  49FA 0166                778              LEA         NUMPROMPT(PC),A4
+000008CA  61B0                     779              BSR         PSTRING         Print prompt character
+000008CC  4CDF 1000                780              MOVEM.L     (A7)+,A4
+000008D0  6100 FF68                781  GETNUM1     BSR         GCHAR
+000008D4  B03C 0031                782              CMP.B       #$31,D0
+000008D8  6DF6                     783              BLT         GETNUM1
+000008DA  B03C 0034                784              CMP.B       #$34,D0
+000008DE  6EF0                     785              BGT         GETNUM1
+000008E0  61B6                     786              BSR         NEWLINE
+000008E2  4E75                     787              RTS
+000008E4                           788  
+000008E4                           789  * Get a navigational character (ESC, ENTER, arrow key) from the user
+000008E4                           790  
+000008E4  =000008E4                791  GETNAV      EQU         *
+000008E4  6100 FF54                792              BSR         GCHAR
+000008E8  B03C 001B                793              CMP.B       #ESC,D0
+000008EC  6700 000C                794              BEQ         GETNAV1
+000008F0  B03C 000D                795              CMP.B       #CR,D0
+000008F4  6700 0004                796              BEQ         GETNAV1
+000008F8  60EA                     797              BRA         GETNAV
+000008FA  4E75                     798  GETNAV1     RTS
+000008FC                           799  
+000008FC                           800  * Clear the screen
+000008FC                           801  
+000008FC  =000008FC                802  CLRSCHAR    EQU         *
+000008FC  49FA 0129                803              LEA         CLRSCNESC(PC),A4
+00000900  6100 FF7A                804              BSR         PSTRING
+00000904  4E75                     805              RTS
+00000906                           806  
+00000906  =00000906                807  CLRSCSIM    EQU         *
+00000906  2F00                     808              MOVE.L  D0, -(SP)
+00000908  2F01                     809              MOVE.L  D1, -(SP)
+0000090A  700B                     810              MOVE.L  #11, D0
+0000090C  323C FF00                811              MOVE.W  #$FF00,D1
+00000910  4E4F                     812              TRAP        #15     
+00000912  221F                     813              MOVE.L  (SP)+,D1    
+00000914  201F                     814              MOVE.L  (SP)+,D0
+00000916  4E75                     815              RTS
+00000918                           816  
+00000918                           817  *-----------------------------------------------------------
+00000918                           818          
+00000918  =00000918                819  DecimalToBinary EQU     *
+00000918                           820          ; This subroutine accepts an ASCII digit in D0
+00000918                           821          ; and stores its binary value in D1. If the digit
+00000918                           822          ; is not between 0-9, D3 holds junk and flag C is set
+00000918                           823          
+00000918  1200                     824          MOVE.B      D0,D1   ; copy input into output
+0000091A  0601 00C6                825          ADD.B       #$C6,D1 ; test upper boundary
+0000091E  6500 0006                826          BCS         END1    ; error if carry
+00000922  0401 00F6                827          SUB.B       #$F6,D1 ; test lower boundary
+00000926  4E75                     828  END1    RTS                 ; return from subroutine
+00000928                           829  
+00000928                           830  *-----------------------------------------------------------
+00000928                           831  
+00000928  =00000928                832  HexToBinary     EQU     *
+00000928                           833          ; This subroutine does the same as above except it
+00000928                           834          ; will also accept hex values A-F (a-f).
+00000928                           835          
+00000928  1200                     836          MOVE.B      D0,D1   ; copy input into output
+0000092A  0601 00C6                837          ADD.B       #$C6,D1 ; test upper decimal boundary
+0000092E  6500 0008                838          BCS         CAPALPH ; try capital alpha if carry
+00000932  0401 00F6                839          SUB.B       #$F6,D1 ; test lower decimal boundary
+00000936  4E75                     840  END2    RTS                 ; return from subroutine
+00000938  0601 00F3                841  CAPALPH ADD.B       #$F3,D1 ; test upper capital alpha boundary
+0000093C  6500 000E                842          BCS         LOWALPH ; try lowercase alpha if carry
+00000940  0401 00F0                843          SUB.B       #$F0,D1 ; clamp down to 10-15
+00000944  65F0                     844          BCS         END2
+00000946  B23C 000A                845          CMP.B       #$0A,D1 ; test lower capital alpha boundary
+0000094A  60EA                     846          BRA         END2
+0000094C  0601 00E0                847  LOWALPH ADD.B       #$E0,D1 ; test upper lowercase alpha boundary
+00000950  65E4                     848          BCS         END2    ; too big - not a hex digit
+00000952  0401 00F0                849          SUB.B       #$F0,D1 ; clamp down to 10-15
+00000956  65DE                     850          BCS         END2
+00000958  B23C 000A                851          CMP.B       #$0A,D1 ; test lower lowercase alpha boundary
+0000095C  60D8                     852          BRA         END2
+0000095E                           853  
+0000095E                           854  *-----------------------------------------------------------
+0000095E                           855  
+0000095E  =0000095E                856  BinaryToAsciiHex    EQU     *
+0000095E                           857          ; This subroutine converts a 16-bit word to four
+0000095E                           858          ; ASCII hex characters. Accepts input in D2 and
+0000095E                           859          ; stores four ASCII characters as LongWord in D3.
+0000095E                           860          
+0000095E  48E7 0F00                861          MOVEM.L       D4-D7,-(A7) ; store the contents of D4-D7 on the stack
+00000962                           862          
+00000962  7600                     863          MOVE.L      #0,D3       ; clear D3
+00000964  3602                     864          MOVE.W      D2,D3       ; copy input to be able to modify
+00000966                           865          
+00000966                           866          ; Move lowest nibble into D4
+00000966  E99B                     867          ROL.L       #4,D3       ; shift original word one nibble left
+00000968  1803                     868          MOVE.B      D3,D4       ; copy "X0", where 'X' is the lowest nibble
+0000096A  E81C                     869          ROR.B       #4,D4       ; shift destination back to "0X"
+0000096C  163C 0000                870          MOVE.B      #$00,D3     ; clear the lowest nibble of the original word
+00000970  E89B                     871          ROR.L       #4,D3       ; shift D3 right to the next nibble
+00000972                           872          
+00000972                           873          ; Convert D4 into ASCII
+00000972  B83C 0009                874          CMP.B       #$9,D4      ; does this print as a decimal or alpha char?
+00000976  6F00 0004                875          BLE         LESS4       ; if low, skip next step
+0000097A  5E44                     876          ADD         #$7,D4      ; add extra amount for alpha char
+0000097C  0644 0030                877  LESS4   ADD         #$30,D4     ; add amount for ASCII decimal char
+00000980                           878          
+00000980                           879          ; Move next nibble into D5
+00000980  1A03                     880          MOVE.B      D3,D5       ; copy "X0", where 'X' is the lowest nibble
+00000982  E81D                     881          ROR.B       #4,D5       ; shift destination back to "0X"
+00000984  163C 0000                882          MOVE.B      #$00,D3     ; clear another nibble of the original word
+00000988  E89B                     883          ROR.L       #4,D3       ; shift D3 right to the next nibble
+0000098A                           884          
+0000098A                           885          ; Convert D5 into ASCII
+0000098A  BA3C 0009                886          CMP.B       #$9,D5      ; does this print as a decimal or alpha char?
+0000098E  6F00 0004                887          BLE         LESS5       ; if low, skip next step
+00000992  5E45                     888          ADD         #$7,D5      ; add extra amount for alpha char
+00000994  0645 0030                889  LESS5   ADD         #$30,D5     ; add amount for ASCII decimal char
+00000998                           890          
+00000998                           891          ; Move next nibble into D6
+00000998  1C03                     892          MOVE.B      D3,D6       ; copy "X0", where 'X' is the lowest nibble
+0000099A  E81E                     893          ROR.B       #4,D6       ; shift destination back to "0X"
+0000099C  163C 0000                894          MOVE.B      #$00,D3     ; clear another nibble of the original word
+000009A0  E89B                     895          ROR.L       #4,D3       ; shift D3 right to the next nibble
+000009A2                           896          
+000009A2                           897          ; Convert D6 into ASCII
+000009A2  BC3C 0009                898          CMP.B       #$9,D6      ; does this print as a decimal or alpha char?
+000009A6  6F00 0004                899          BLE         LESS6       ; if low, skip next step
+000009AA  5E46                     900          ADD         #$7,D6      ; add extra amount for alpha char
+000009AC  0646 0030                901  LESS6   ADD         #$30,D6     ; add amount for ASCII decimal char
+000009B0                           902          
+000009B0                           903          ; Move highest nibble into D7
+000009B0  1E03                     904          MOVE.B      D3,D7       ; copy "X0", where 'X' is the lowest nibble
+000009B2  E81F                     905          ROR.B       #4,D7       ; shift destination back to "0X"
+000009B4  163C 0000                906          MOVE.B      #$00,D3     ; clear another nibble of the original word
+000009B8  E89B                     907          ROR.L       #4,D3       ; shift D3 right to the next nibble
+000009BA                           908          
+000009BA                           909          ; Convert D7 into ASCII
+000009BA  BE3C 0009                910          CMP.B       #$9,D7      ; does this print as a decimal or alpha char?
+000009BE  6F00 0004                911          BLE         LESS7       ; if low, skip next step
+000009C2  5E47                     912          ADD         #$7,D7      ; add extra amount for alpha char
+000009C4  0647 0030                913  LESS7   ADD         #$30,D7     ; add amount for ASCII decimal char
+000009C8                           914  
+000009C8                           915          ; Combine all ASCII characters into a single LongWord
+000009C8  1607                     916          MOVE.B      D7,D3       ; first char
+000009CA  E19B                     917          ROL.L       #8,D3       ; shift left one byte to make room
+000009CC  1606                     918          MOVE.B      D6,D3       ; second char
+000009CE  E19B                     919          ROL.L       #8,D3
+000009D0  1605                     920          MOVE.B      D5,D3
+000009D2  E19B                     921          ROL.L       #8,D3
+000009D4  1604                     922          MOVE.B      D4,D3
+000009D6                           923          
+000009D6  4CDF 00F0                924          MOVEM.L       (A7)+,D4-D7 ; retrieve the previous contents of D4-D7
+000009DA  4E75                     925          RTS
+000009DC                           926  
+000009DC                           927  *-----------------------------------------------------------
+000009DC                           928  
+000009DC                           929  ****************************************************************
+000009DC                           930  * String printing routines
+000009DC                           931  *
+000009DC                           932  
+000009DC  =000009DC                933  Print4AsciiHex      EQU         *
+000009DC                           934  * Print 4 ASCII characters stored as a longword
+000009DC                           935  * Inputs: D3 = chars
+000009DC                           936  *         D4 = include space when $FF
+000009DC                           937  
+000009DC  48E7 8000                938              MOVEM.L     D0,-(SP)    Store in stack
+000009E0  2003                     939              MOVE.L      D3,D0       Input to print
+000009E2  E198                     940              ROL.L       #8,D0       Rotate first byte to the bottom
+000009E4  6100 FE86                941              BSR         PCHAR       Print
+000009E8  E198                     942              ROL.L       #8,D0       Rotate second byte in
+000009EA  6100 FE80                943              BSR         PCHAR       Print
+000009EE  B87C 00FF                944              CMP         #$FF,D4     Need space in between?
+000009F2  6600 0010                945              BNE         skipSpace1  If not, skip the space
+000009F6  48E7 8000                946              MOVEM.L     D0,-(SP)    Store temporarily on stack
+000009FA  7020                     947              MOVE.L      #' ',D0     Input a space temporarily
+000009FC  6100 FE6E                948              BSR         PCHAR       Print a space
+00000A00  4CDF 0001                949              MOVEM.L     (SP)+,D0    Restore working digits from stack
+00000A04  E198                     950  skipSpace1  ROL.L       #8,D0       Rotate third byte in
+00000A06  6100 FE64                951              BSR         PCHAR       Print
+00000A0A  E198                     952              ROL.L       #8,D0       Rotate last byte back in
+00000A0C  6100 FE5E                953              BSR         PCHAR       Print
+00000A10  B87C 00FF                954              CMP         #$FF,D4     Need space afterwards?
+00000A14  6600 0008                955              BNE         skipSpace2  If not, skip second space
+00000A18  7020                     956              MOVE.L      #' ',D0     Insert second space
+00000A1A  6100 FE50                957              BSR         PCHAR       Print second space
+00000A1E  4CDF 0001                958  skipSpace2  MOVEM.L     (SP)+,D0    Restore from stack
+00000A22  4E75                     959              RTS
+00000A24                           960  
+00000A24                           961  ****************************************************************
+00000A24                           962  * Strings and Constants in ROM
+00000A24                           963  *
+00000A24= 0D 0A 00                 964  CRLF        DC.B    CR,LF,0
+00000A27= 1B 5B 32 4A              965  CLRSCNESC   DC.B    ESC,'[2J'
+00000A2B= 3E 20 00                 966  PROMPT      DC.B    '> ',0
+00000A2E= 23 3E 20 00              967  NUMPROMPT   DC.B    '#> ',0
+00000A32= 45 6E 74 65 72 20 ...    968  MENUTEXT    DC.B    'Enter the number of one of the following options:',CR,LF,'1. View or modify a register',CR,LF,'2. View or modify a memory location',CR,LF,'3. Upload an S-record',CR,LF,'4. Jump to a memory location',0,0
+00000ADD= 28 4F 70 74 69 6F ...    969  OPNOTIMP1   DC.B    '(Option 1 not yet implemented)',0,0
+00000AFD= 28 4F 70 74 69 6F ...    970  OPNOTIMP2   DC.B    '(Option 2 not yet implemented)',0,0
+00000B1D= 28 4F 70 74 69 6F ...    971  OPNOTIMP3   DC.B    '(Option 3 not yet implemented)',0,0
+00000B3D= 28 4F 70 74 69 6F ...    972  OPNOTIMP4   DC.B    '(Option 4 not yet implemented)',0,0
+00000B5D= 0D 0A 20 20 20 20 ...    973  MENUBANNER  DC.B    CR,LF,'                                   MAIN MENU',CR,LF,CR,LF,0,0
+00000B91= 0D 0A 3C 5B 45 53 ...    974  REGBANNER   DC.B    CR,LF,'<[ESC]                             REGISTERS',CR,LF,CR,LF,0,0
+00000BC5= 0D 0A 3C 5B 45 53 ...    975  MEMBANNER   DC.B    CR,LF,'<[ESC]                               MEMORY ',CR,LF,CR,LF,0,0
+00000BF9= 0D 0A 3C 5B 45 53 ...    976  PGMBANNER   DC.B    CR,LF,'<[ESC]                          JUMP TO PROGRAM',CR,LF,CR,LF,0,0
+00000C30= 0D 0A 3C 5B 45 53 ...    977  SRBANNER    DC.B    CR,LF,'<[ESC]                           LOAD S-RECORD',CR,LF,CR,LF,0,0
+00000C66= 0D 0A                    978  MENUSCREEN  DC.B    CR,LF
+00000C68= 0D 0A                    979              DC.B    CR,LF
+00000C6A= 0D 0A                    980              DC.B    CR,LF
+00000C6C= 0D 0A                    981              DC.B    CR,LF
+00000C6E= 0D 0A                    982              DC.B    CR,LF
+00000C70= 0D 0A                    983              DC.B    CR,LF
+00000C72= 20 20 20 20 20 20 ...    984              DC.B    '                  _           _           __  __  ___  _   _  ',CR,LF
+00000CB2= 20 20 20 20 20 20 ...    985              DC.B    '                 | |__   __ _| |__  _   _|  \/  |/ _ \| \ | | ',CR,LF
+00000CF2= 20 20 20 20 20 20 ...    986              DC.B    '                 | ''_ \ / _` | ''_ \| | | | |\/| | | | |  \| | ',CR,LF
+00000D32= 20 20 20 20 20 20 ...    987              DC.B    '                 | |_) | (_| | |_) | |_| | |  | | |_| | |\  | ',CR,LF
+00000D72= 20 20 20 20 20 20 ...    988              DC.B    '                 |_.__/ \__,_|_.__/ \__, |_|  |_|\___/|_| \_| ',CR,LF
+00000DB2= 20 20 20 20 20 20 ...    989              DC.B    '                                    |___/         68k monitor ',CR,LF
+00000DF2= 0D 0A                    990              DC.B    CR,LF
+00000DF4= 0D 0A                    991              DC.B    CR,LF
+00000DF6= 0D 0A                    992              DC.B    CR,LF
+00000DF8= 0D 0A                    993              DC.B    CR,LF
+00000DFA= 20 20 20 20 20 20 ...    994              DC.B    '       Registers       Memory       Load S-Record       Jump to Program ',CR,LF,0,0
+00000E46= 20 20 20 20 20 20 ...    995  OP1CARAT    DC.B    '           ^',CR,LF,CR,LF,CR,LF,CR,LF,0,0
+00000E5C= 20 20 20 20 20 20 ...    996  OP2CARAT    DC.B    '                         ^',CR,LF,CR,LF,CR,LF,CR,LF,0,0
+00000E80= 20 20 20 20 20 20 ...    997  OP3CARAT    DC.B    '                                          ^',CR,LF,CR,LF,CR,LF,CR,LF,0,0
+00000EB5= 20 20 20 20 20 20 ...    998  OP4CARAT    DC.B    '                                                               ^',CR,LF,CR,LF,CR,LF,CR,LF,0,0
+00000EFF= 0D 0A 0D 0A 45 6E ...    999  REGINSTRUCT DC.B    CR,LF,CR,LF,'Enter a register''s name to view its contents.',CR,LF,'Then type hex digits to overwrite, or press enter to cancel.',CR,LF,'> ',0,0
+00000F74= 0D 0A 52 65 67 69 ...   1000  REGCONFIRM  DC.B    CR,LF,'Register successfully modified.',CR,LF,0,0
+00000F99= 20 3E 20 00 00          1001  REGPROMPT   DC.B    ' > ',0,0
+00000F9E= 0D 0A 4F 6F 70 73 ...   1002  REGERROR    DC.B    CR,LF,'Oops. That''s not a hex digit.',0,0
+00000FBF= 3A 20 00 00             1003  REGCOLON    DC.B    ': ',0,0
+00000FC3= 0D 0A                   1004  REGSCREEN   DC.B    CR,LF
+00000FC5= 20 20 20 20 20 20 ...   1005              DC.B    '              DATA                  ADDRESS                  OTHER',CR,LF
+00001009= 20 20 20 20 20 20 ...   1006              DC.B    '         --------------          --------------          --------------',CR,LF
+00001052= 0D 0A                   1007              DC.B    CR,LF
+00001054= 20 20 20 20 20 20 ...   1008              DC.B    '         D0 = $01020304          A0 = $01020304        ( US = $01020304 )',CR,LF
+0000109F= 20 20 20 20 20 20 ...   1009              DC.B    '                                                                      ^',CR,LF
+000010E8= 20 20 20 20 20 20 ...   1010              DC.B    '         D1 = $01020304          A1 = $01020304          SS = $01020304',CR,LF
+00001131= 0D 0A                   1011              DC.B    CR,LF
+00001133= 20 20 20 20 20 20 ...   1012              DC.B    '         D2 = $01020304        > A2 = $01020304 <        PC = $01020304',CR,LF
+0000117C= 0D 0A                   1013              DC.B    CR,LF
+0000117E= 20 20 20 20 20 20 ...   1014              DC.B    '         D3 = $01020304          A3 = $01020304',CR,LF
+000011AF= 0D 0A                   1015              DC.B    CR,LF
+000011B1= 20 20 20 20 20 20 ...   1016              DC.B    '         D4 = $01020304          A4 = $01020304',CR,LF
+000011E2= 0D 0A                   1017              DC.B    CR,LF
+000011E4= 20 20 20 20 20 20 ...   1018              DC.B    '       ( D5 = $01020304 )        A5 = $01020304',CR,LF
+00001215= 20 20 20 20 20 20 ...   1019              DC.B    '                 ^',CR,LF
+00001229= 20 20 20 20 20 20 ...   1020              DC.B    '         D6 = $01020304          A6 = $01020304',CR,LF
+0000125A= 0D 0A                   1021              DC.B    CR,LF
+0000125C= 20 20 20 20 20 20 ...   1022              DC.B    '         D7 = $01020304          A7 = $01020304',CR,LF
+0000128D= 0D 0A                   1023              DC.B    CR,LF
+0000128F= 0D 0A 00 00             1024              DC.B    CR,LF,0,0
+00001293= 20 20 20 20 20 20 ...   1025  MEMSCREEN   DC.B    '           800B0      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+000012DA= 20 20 20 20 20 20 ...   1026              DC.B    '           800C0      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+00001321= 20 20 20 20 20 20 ...   1027              DC.B    '           800D0      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+00001368= 20 20 20 20 20 20 ...   1028              DC.B    '           800E0      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+000013AF= 20 20 20 20 20 20 ...   1029              DC.B    '           800F0      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+000013F6= 20 20 20 20 20 20 ...   1030              DC.B    '       -   80100      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+0000143D= 20 20 20 20 20 20 ...   1031              DC.B    '           80110      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+00001484= 20 20 20 20 20 20 ...   1032              DC.B    '           80120      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+000014CB= 20 20 20 20 20 20 ...   1033              DC.B    '         > 801_0 < >> FF FF _F FF FF FF FF FF FF FF FF FF FF FF FF FF <<',CR,LF
+00001515= 20 20 20 20 20 20 ...   1034              DC.B    '           80140      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+0000155C= 20 20 20 20 20 20 ...   1035              DC.B    '           80150      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+000015A3= 20 20 20 20 20 20 ...   1036              DC.B    '           80160      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+000015EA= 20 20 20 20 20 20 ...   1037              DC.B    '           80170      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+00001631= 20 20 20 20 20 20 ...   1038              DC.B    '       -   80180      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+00001678= 20 20 20 20 20 20 ...   1039              DC.B    '           80190      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+000016BF= 20 20 20 20 20 20 ...   1040              DC.B    '           801A0      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+00001706= 20 20 20 20 20 20 ...   1041              DC.B    '           801B0      FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',CR,LF
+0000174D= 20 20 20 20 20 20 ...   1042              DC.B    '            ...                             ...                      ',0,0
+00001794= 20 20 20 20 20 20 ...   1043  MEMHEADER   DC.B    '          ADDRESS                          BYTES',CR,LF
+000017C6= 20 20 20 20 20 20 ...   1044              DC.B    '             $        0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F',CR,LF
+0000180C= 20 20 20 20 20 20 ...   1045              DC.B    '          -------    -------------------------------------------------',CR,LF
+00001854= 20 20 20 20 20 20 ...   1046              DC.B    '            ...                             ...',CR,LF,0,0
+00001887= 20 20 20 20 20 20 ...   1047  TICKSPACE   DC.B    '       -   ',0,0
+00001894= 20 20 20 20 20 20 ...   1048  NOTICKSPACE DC.B    '           ',0,0
+000018A1= 20 20 20 20 20 20 ...   1049  LEFTCARAT   DC.B    '         > ',0,0
+000018AE= 20 20 20 20 20 20 ...   1050  LCARATTICK  DC.B    '       - > ',0,0
+000018BB= 20 20 20 20 20 20 ...   1051  COLUMNSPACE DC.B    '      ',0,0
+000018C3= 20 3C 20 00 00          1052  RCARAT      DC.B    ' < ',0,0
+000018C8= 20 20 20 00 00          1053  NORCARAT    DC.B  '   ',0,0
+000018CD= 3E 3E 20 00 00          1054  LDUBCARAT   DC.B    '>> ',0,0
+000018D2= 20 20 20 00 00          1055  NOLDUBCARAT   DC.B  '   ',0,0
+000018D7= 3C 3C 00 00             1056  RDUBCARAT   DC.B    '<<',0,0
+000018DB= 20 20 20 20 20 20 ...   1057  MEMFOOTER   DC.B    '            ...                             ...                     ',0,0
+00001921= 38 30 30 42 30 00 00    1058  MEMMADDR    DC.B    '800B0',0,0
+00001928= 46 46 20 46 46 20 ...   1059  MEMMOCKROW  DC.B    'FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF',0,0
+00001959= 0D 0A 0D 0A 0D 0A ...   1060  PGMNOTLD    DC.B    CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,'                    (No program found at RAM location $81000.)',CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,0,0
+000019C1= 0D 0A 0D 0A 0D 0A ...   1061  SRREADY     DC.B    CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,'                               (Ready for S-Record)',CR,LF,CR,LF,CR,LF,CR,LF,CR,LF,0,0
+00001A0A= 20 20 20 20 20 20 ...   1062  SRLOADING   DC.B    '                                    Loading...',CR,LF,CR,LF,CR,LF,CR,LF,0,0
+00001A42= 20 20 20 20 20 20 ...   1063  SRCOMPLETE  DC.B    '                                    Complete!',CR,LF,0,0
+00001A73= 0D 0A 20 20 20 20 ...   1064  SRERROR     DC.B    CR,LF,'                           Oops. Something went wrong.',CR,LF,0,0
+00001AAF  =0000083A               1065  GCHAR       EQU     GCHARSIM
+00001AAF  =0000086C               1066  PCHAR       EQU     PCHARSIM
+00001AAF  =000007D2               1067  INIT_DUART  EQU     INITDSIM
+00001AAF  =00000906               1068  CLRSCREEN   EQU     CLRSCSIM
+00001AAF                          1069  
+00001AAF                          1070              END     MAIN
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+ACR                 9
+BAUD                66
+BINARYTOASCIIHEX    95E
+BS                  8
+CAPALPH             938
+CHANGETOEDIT        402
+CLRSCHAR            8FC
+CLRSCNESC           A27
+CLRSCREEN           906
+CLRSCSIM            906
+COLUMNSPACE         18BB
+CR                  D
+CRA                 5
+CRLF                A24
+CSRA                3
+DECIMALTOBINARY     918
+DECREMENTBASEADDRESS  422
+DECREMENTSELECTEDDIGIT  40C
+DEL                 F7
+DONEWITHSTUPID      50C
+DRAWFIVEDIGITADDRESS  612
+DRAWMEMORYSCREEN    454
+DRAWRAMDATA         57C
+DRAWROW             4A8
+DRAWSPECIALFIVEDIGITADDRESS  630
+DRAWSPECIALRAMDATA  5AC
+DRAWSPECIALROW      4DE
+DSDDONE             420
+DUART               100000
+EDIADONE            3EE
+EDIAEDITMODE        3BE
+EDIAFLIP            3C6
+EDIAFLIPDONE        3E6
+EDIAROL             3AC
+EDIAROR             394
+EDIASKIP1           398
+EDIASKIP2           3B0
+EDITDIGITIFASCII    374
+EDITMEMORYCOMMAND   340
+END1                926
+END2                936
+ESC                 1B
+GCHAR               83A
+GCHARHAR            81C
+GCHARSIM            83A
+GETANDWRITEBYTES    754
+GETDATA             58C
+GETENDLINE          77A
+GETL1               8BC
+GETLINE             8AE
+GETNAV              8E4
+GETNAV1             8FA
+GETNIBBLES          72A
+GETNUM              8C2
+GETNUM1             8D0
+GETREGISTERNIBBLES  2D4
+GETSPECIALDATA      5BC
+HEADING             8A8
+HEXTOBINARY         928
+INCREMENTBASEADDRESS  428
+INCREMENTSELECTEDDIGIT  42E
+INITDHAR            7DE
+INITDSIM            7D2
+INIT_DUART          7D2
+INPUT_POLL          826
+ISDDONE             452
+ISDVIEWMODE         448
+JMPPGM              7A0
+JMPPGM1             7BA
+LCARATTICK          18AE
+LDSREC              666
+LDUBCARAT           18CD
+LEFTCARAT           18A1
+LESS4               97C
+LESS5               994
+LESS6               9AC
+LESS7               9C4
+LF                  A
+LOWALPH             94C
+MAIN                100
+MEMBANNER           BC5
+MEMFOOTER           18DB
+MEMHEADER           1794
+MEMMADDR            1921
+MEMMOCKROW          1928
+MEMSCREEN           1293
+MENU                112
+MENU1               114
+MENU2               150
+MENU3               16A
+MENU4               174
+MENU6               180
+MENU7               182
+MENUBANNER          B5D
+MENUSCREEN          C66
+MENUTEXT            A32
+MMD1                476
+MMD2                48E
+MMDRNOTICK          4BC
+MODMEM              328
+MODREG              1AA
+MR1A                1
+MR2A                1
+NEWLINE             898
+NIBBLELOOP          730
+NIBBLELOOP2         2DA
+NIBBLESCR           312
+NIBBLESDONE         74E
+NIBBLESDONE2        322
+NIBBLESERROR2       31A
+NIBBLESESC          30A
+NOLDUBCARAT         18D2
+NOLEFTDOUBLECARAT   548
+NORCARAT            18C8
+NORIGHTCARAT        534
+NORIGHTDOUBLECARAT  570
+NOSPECIALADDRESS    520
+NOSPECIALRAMDATA    55C
+NOTICK              500
+NOTICKSPACE         1894
+NOUNDERSCORE        5EE
+NUMPROMPT           A2E
+OP1CARAT            E46
+OP2CARAT            E5C
+OP3CARAT            E80
+OP4CARAT            EB5
+OPNOTIMP1           ADD
+OPNOTIMP2           AFD
+OPNOTIMP3           B1D
+OPNOTIMP4           B3D
+OUTPUT_POLL         854
+PCHAR               86C
+PCHARHAR            846
+PCHARSIM            86C
+PGMBANNER           BF9
+PGMNOTLD            1959
+PGMSTART            81000
+PRINT4ASCIIHEX      9DC
+PROMPT              A2B
+PS1                 884
+PS2                 88E
+PSTRING             87C
+RBA                 7
+RCARAT              18C3
+RDUBCARAT           18D7
+RECORDLOOP          680
+RECORDSDONE         70E
+RECORDSEND          722
+RECORDSERROR        71A
+REFRESHMEMORY       336
+REGBANNER           B91
+REGCOLON            FBF
+REGCONFIRM          F74
+REGERROR            F9E
+REGINSTRUCT         EFF
+REGISTEREND         270
+REGISTERERROR       266
+REGISTERLOOP        216
+REGISTER_HOLDING_MEMORY  80900
+REGPROMPT           F99
+REGSCREEN           FC3
+ROTATELEFT          640
+ROTATERAMLEFT       5D6
+ROTATERAMRIGHT      5E4
+ROTATERIGHT         64E
+RXRDY               0
+SKIPSPACE1          A04
+SKIPSPACE2          A1E
+SPECIALADDRESS      524
+SPECIALRAMDATA      560
+SRA                 3
+SRBANNER            C30
+SRCOMPLETE          1A42
+SRERROR             1A73
+SRLOADING           1A0A
+SRREADY             19C1
+STACK               80800
+START               0
+TBA                 7
+TESTBRG             5
+TICKSPACE           1887
+TOGGLEVIEWEDIT      3F4
+TVEDONE             408
+TXRDY               2
+TYPE0RECORD         6B4
+TYPE1RECORD         6DA
+TYPE8RECORD         6FA
+WRITELOOP           75E
+WRITINGDONE         770

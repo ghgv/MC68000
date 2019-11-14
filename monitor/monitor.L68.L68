@@ -1,0 +1,362 @@
+00000500 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.04
+Created On: 9/06/2017 10:28:15 p.m.
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      :
+00000000                             3  * Written by :
+00000000                             4  * Date       :
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00000000  =00080800                  7  STACK       EQU     $80800      RAM location for stack
+00000000                             8  
+00000000= 00080800                   9      DC.L STACK ;
+00000004= 00000500                  10      DC.L MAIN ;
+00000008                            11      
+00000064                            12      ORG $64
+00000064= 00000560                  13      DC.L IRQ1
+00000068                            14      ORG $68
+00000068= 000005A4                  15      DC.L IRQ2
+0000006C                            16      ORG $6C
+0000006C= 000005E8                  17      DC.L IRQ3
+00000070                            18      ORG $70
+00000070= 0000062C                  19      DC.L IRQ4
+00000074                            20      ORG $74
+00000074= 00000670                  21      DC.L IRQ5
+00000078                            22      ORG $78
+00000078= 00000670                  23      DC.L IRQ5
+0000007C                            24      ORG $7C
+0000007C= 000006B6                  25      DC.L IRQ6
+00000080                            26      ORG $80
+00000080= 000006FA                  27      DC.L IRQ7
+00000084                            28      
+00000084                            29   
+000000BC                            30      ORG $BC
+000000BC= 00000528                  31      DC.L PRINTCHAR
+000000C0                            32  
+000000C0                            33  
+00000500                            34     ORG    $0500
+00000500                            35  START:                  ; first instruction of program
+00000500                            36  MAIN:   
+00000500  287C 00058000             37      MOVEA.L #PA,A4
+00000506                            38  loop:
+00000506                            39      
+00000506  103C 00AA                 40      MOVE.B #$AA,D0
+0000050A  46FC 2000                 41      MOVE.W #INT_ON,SR
+0000050E  13C0 00080000             42      MOVE.B D0,(RAM)
+00000514  1039 00080000             43      MOVE.B (RAM),D0
+0000051A  1880                      44      MOVE.B D0,(A4)
+0000051C  6100 0022                 45      BSR PRINTBANNER
+00000520                            46  DO_NOTHING:
+00000520                            47      
+00000520  4EF8 0520                 48      JMP DO_NOTHING
+00000524                            49      
+00000524  4E72 2700                 50      STOP #$2700    ;enable Supervisor mode and Interrupt
+00000528                            51      
+00000528                            52      
+00000528                            53      
+00000528                            54  PRINTCHAR:  ; Prints the char in D1
+00000528  267C 0007D000             55      MOVEA.L #SERSTATUS_TXE,A3
+0000052E  227C 0007A000             56      MOVEA.L #SEROUT,A1
+00000534                            57  READ_STATUS:
+00000534  1013                      58      MOVE.B (A3),D0
+00000536  0800 0000                 59      BTST #0,D0 ;is TXE 0?
+0000053A  66F8                      60      BNE READ_STATUS
+0000053C  1281                      61      MOVE.B D1,(A1)
+0000053E  4E73                      62      RTE
+00000540                            63  
+00000540                            64  
+00000540                            65  PRINTBANNER:  
+00000540  41FA 022B                 66      LEA BOOT_MESSAGE(PC),A0
+00000544                            67      
+00000544                            68  PRINTCHARLOOP1:
+00000544  1218                      69      MOVE.B (A0)+,D1 
+00000546  B23C 0000                 70      CMP.B #0,D1
+0000054A  6700 000C                 71      BEQ NULL_CHAR
+0000054E  103C 0006                 72      MOVE.B #6,D0
+00000552  4E4F                      73      TRAP #15
+00000554  4EF8 0544                 74      JMP PRINTCHARLOOP1
+00000558                            75  NULL_CHAR
+00000558  103C 0006                 76      MOVE.B #6,D0
+0000055C  4E4F                      77      TRAP #15 
+0000055E  4E75                      78      RTS 
+00000560                            79      
+00000560                            80  
+00000560                            81  IRQ1:  ;
+00000560  103C 0003                 82       MOVE.B #3,D0
+00000564  41FA 01D8                 83       LEA IRQ_1(PC),A0
+00000568                            84  IRQ1_LOOP:
+00000568  1218                      85       MOVE.B (A0)+,D1 
+0000056A  B23C 0000                 86       CMP.B #0,D1
+0000056E  6700 001C                 87       BEQ SALIR_IRQ1
+00000572  267C 0007D000             88       MOVEA.L #SERSTATUS_TXE,A3
+00000578  227C 0007A000             89       MOVEA.L #SEROUT,A1
+0000057E                            90  IRQ1_STATUS:
+0000057E  1013                      91      MOVE.B (A3),D0
+00000580  0800 0000                 92      BTST #0,D0 ;is TXE 0?
+00000584  66F8                      93      BNE IRQ1_STATUS
+00000586  1281                      94      MOVE.B D1,(A1)
+00000588  4EF8 0568                 95      JMP IRQ1_LOOP
+0000058C                            96  SALIR_IRQ1:
+0000058C  267C 0007D000             97      MOVEA.L #SERSTATUS_TXE,A3
+00000592  227C 0007A000             98      MOVEA.L #SEROUT,A1
+00000598                            99  IRQ1_STATUS2:
+00000598  1013                     100      MOVE.B (A3),D0
+0000059A  0800 0000                101      BTST #0,D0 ;is TXE 0?
+0000059E  66F8                     102      BNE IRQ1_STATUS2
+000005A0  1281                     103      MOVE.B D1,(A1)
+000005A2  4E73                     104      RTE
+000005A4                           105  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+000005A4                           106  IRQ2:  
+000005A4  103C 0003                107       MOVE.B #3,D0
+000005A8  41FA 019A                108       LEA IRQ_2(PC),A0
+000005AC                           109  IRQ2_LOOP:
+000005AC  1218                     110       MOVE.B (A0)+,D1 
+000005AE  B23C 0000                111       CMP.B #0,D1
+000005B2  6700 001C                112       BEQ SALIR_IRQ2
+000005B6  267C 0007D000            113       MOVEA.L #SERSTATUS_TXE,A3
+000005BC  227C 0007A000            114       MOVEA.L #SEROUT,A1
+000005C2                           115  IRQ2_STATUS:
+000005C2  1013                     116      MOVE.B (A3),D0
+000005C4  0800 0000                117      BTST #0,D0 ;is TXE 0?
+000005C8  66F8                     118      BNE IRQ2_STATUS
+000005CA  1281                     119      MOVE.B D1,(A1)
+000005CC  4EF8 05AC                120      JMP IRQ2_LOOP
+000005D0                           121  SALIR_IRQ2:
+000005D0  267C 0007D000            122      MOVEA.L #SERSTATUS_TXE,A3
+000005D6  227C 0007A000            123      MOVEA.L #SEROUT,A1
+000005DC                           124  IRQ2_STATUS2:
+000005DC  1013                     125      MOVE.B (A3),D0
+000005DE  0800 0000                126      BTST #0,D0 ;is TXE 0?
+000005E2  66F8                     127      BNE IRQ2_STATUS2
+000005E4  1281                     128      MOVE.B D1,(A1)
+000005E6  4E73                     129      RTE
+000005E8                           130  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+000005E8                           131  IRQ3:  ;From IPL0 
+000005E8  103C 0003                132       MOVE.B #3,D0
+000005EC  41FA 015C                133       LEA IRQ_3(PC),A0
+000005F0                           134  IRQ3_LOOP:
+000005F0  1218                     135       MOVE.B (A0)+,D1 
+000005F2  B23C 0000                136       CMP.B #0,D1
+000005F6  6700 001C                137       BEQ SALIR_IRQ3
+000005FA  267C 0007D000            138       MOVEA.L #SERSTATUS_TXE,A3
+00000600  227C 0007A000            139       MOVEA.L #SEROUT,A1
+00000606                           140  IRQ3_STATUS:
+00000606  1013                     141      MOVE.B (A3),D0
+00000608  0800 0000                142      BTST #0,D0 ;is TXE 0?
+0000060C  66F8                     143      BNE IRQ3_STATUS
+0000060E  1281                     144      MOVE.B D1,(A1)
+00000610  4EF8 05F0                145      JMP IRQ3_LOOP
+00000614                           146  SALIR_IRQ3:
+00000614  267C 0007D000            147      MOVEA.L #SERSTATUS_TXE,A3
+0000061A  227C 0007A000            148      MOVEA.L #SEROUT,A1
+00000620                           149  IRQ3_STATUS2:
+00000620  1013                     150      MOVE.B (A3),D0
+00000622  0800 0000                151      BTST #0,D0 ;is TXE 0?
+00000626  66F8                     152      BNE IRQ3_STATUS2
+00000628  1281                     153      MOVE.B D1,(A1)
+0000062A  4E73                     154      RTE
+0000062C                           155  
+0000062C                           156  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0000062C                           157  IRQ4:  ;From IPL0 
+0000062C  103C 0003                158       MOVE.B #3,D0
+00000630  41FA 011E                159       LEA IRQ_4(PC),A0
+00000634                           160  IRQ4_LOOP:
+00000634  1218                     161       MOVE.B (A0)+,D1 
+00000636  B23C 0000                162       CMP.B #0,D1
+0000063A  6700 001C                163       BEQ SALIR_IRQ4
+0000063E  267C 0007D000            164       MOVEA.L #SERSTATUS_TXE,A3
+00000644  227C 0007A000            165       MOVEA.L #SEROUT,A1
+0000064A                           166  IRQ4_STATUS:
+0000064A  1013                     167      MOVE.B (A3),D0
+0000064C  0800 0000                168      BTST #0,D0 ;is TXE 0?
+00000650  66F8                     169      BNE IRQ4_STATUS
+00000652  1281                     170      MOVE.B D1,(A1)
+00000654  4EF8 0634                171      JMP IRQ4_LOOP
+00000658                           172  SALIR_IRQ4:
+00000658  267C 0007D000            173      MOVEA.L #SERSTATUS_TXE,A3
+0000065E  227C 0007A000            174      MOVEA.L #SEROUT,A1
+00000664                           175  IRQ4_STATUS2:
+00000664  1013                     176      MOVE.B (A3),D0
+00000666  0800 0000                177      BTST #0,D0 ;is TXE 0?
+0000066A  66F8                     178      BNE IRQ4_STATUS2
+0000066C  1281                     179      MOVE.B D1,(A1)
+0000066E  4E73                     180      RTE
+00000670                           181  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+00000670                           182  IRQ5:  ;From IPL2 timer Interrupt
+00000670  103C 0005                183       MOVE.B #5,D0
+00000674  4E73                     184         RTE
+00000676  41FA 00DE                185       LEA IRQ_5(PC),A0
+0000067A                           186  IRQ5_LOOP:
+0000067A  1218                     187       MOVE.B (A0)+,D1 
+0000067C  B23C 0000                188       CMP.B #0,D1
+00000680  6700 001C                189       BEQ SALIR_IRQ5
+00000684  267C 0007D000            190       MOVEA.L #SERSTATUS_TXE,A3
+0000068A  227C 0007A000            191       MOVEA.L #SEROUT,A1
+00000690                           192  IRQ5_STATUS:
+00000690  1013                     193      MOVE.B (A3),D0
+00000692  0800 0000                194      BTST #0,D0 ;is TXE 0?
+00000696  66F8                     195      BNE IRQ5_STATUS
+00000698  1281                     196      MOVE.B D1,(A1)
+0000069A  4EF8 067A                197      JMP IRQ5_LOOP
+0000069E                           198  SALIR_IRQ5:
+0000069E  267C 0007D000            199      MOVEA.L #SERSTATUS_TXE,A3
+000006A4  227C 0007A000            200      MOVEA.L #SEROUT,A1
+000006AA                           201  IRQ5_STATUS2:
+000006AA  1013                     202      MOVE.B (A3),D0
+000006AC  0800 0000                203      BTST #0,D0 ;is TXE 0?
+000006B0  66F8                     204      BNE IRQ5_STATUS2
+000006B2  1281                     205      MOVE.B D1,(A1)
+000006B4  4E73                     206      RTE
+000006B6                           207  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+000006B6                           208  IRQ6:  ;From IPL0 
+000006B6  103C 0003                209       MOVE.B #3,D0
+000006BA  41FA 00A0                210       LEA IRQ_6(PC),A0
+000006BE                           211  IRQ6_LOOP:
+000006BE  1218                     212       MOVE.B (A0)+,D1 
+000006C0  B23C 0000                213       CMP.B #0,D1
+000006C4  6700 001C                214       BEQ SALIR_IRQ6
+000006C8  267C 0007D000            215       MOVEA.L #SERSTATUS_TXE,A3
+000006CE  227C 0007A000            216       MOVEA.L #SEROUT,A1
+000006D4                           217  IRQ6_STATUS:
+000006D4  1013                     218      MOVE.B (A3),D0
+000006D6  0800 0000                219      BTST #0,D0 ;is TXE 0?
+000006DA  66F8                     220      BNE IRQ6_STATUS
+000006DC  1281                     221      MOVE.B D1,(A1)
+000006DE  4EF8 06BE                222      JMP IRQ6_LOOP
+000006E2                           223  SALIR_IRQ6:
+000006E2  267C 0007D000            224      MOVEA.L #SERSTATUS_TXE,A3
+000006E8  227C 0007A000            225      MOVEA.L #SEROUT,A1
+000006EE                           226  IRQ6_STATUS2:
+000006EE  1013                     227      MOVE.B (A3),D0
+000006F0  0800 0000                228      BTST #0,D0 ;is TXE 0?
+000006F4  66F8                     229      BNE IRQ6_STATUS2
+000006F6  1281                     230      MOVE.B D1,(A1)
+000006F8  4E73                     231      RTE
+000006FA                           232  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+000006FA                           233  IRQ7:  ;From IPL0 
+000006FA  103C 0003                234       MOVE.B #3,D0
+000006FE  41FA 0062                235       LEA IRQ_7(PC),A0
+00000702                           236  IRQ7_LOOP:
+00000702  1218                     237       MOVE.B (A0)+,D1 
+00000704  B23C 0000                238       CMP.B #0,D1
+00000708  6700 001C                239       BEQ SALIR_IRQ7
+0000070C  267C 0007D000            240       MOVEA.L #SERSTATUS_TXE,A3
+00000712  227C 0007A000            241       MOVEA.L #SEROUT,A1
+00000718                           242  IRQ7_STATUS:
+00000718  1013                     243      MOVE.B (A3),D0
+0000071A  0800 0000                244      BTST #0,D0 ;is TXE 0?
+0000071E  66F8                     245      BNE IRQ7_STATUS
+00000720  1281                     246      MOVE.B D1,(A1)
+00000722  4EF8 0702                247      JMP IRQ7_LOOP
+00000726                           248  SALIR_IRQ7:
+00000726  267C 0007D000            249      MOVEA.L #SERSTATUS_TXE,A3
+0000072C  227C 0007A000            250      MOVEA.L #SEROUT,A1
+00000732                           251  IRQ7_STATUS2:
+00000732  1013                     252      MOVE.B (A3),D0
+00000734  0800 0000                253      BTST #0,D0 ;is TXE 0?
+00000738  66F8                     254      BNE IRQ7_STATUS2
+0000073A  1281                     255      MOVE.B D1,(A1)
+0000073C  4E73                     256      RTE
+0000073E                           257      
+0000073E                           258  
+0000073E                           259  
+0000073E  =00000000                260  LOADADDR    EQU $00000
+0000073E                           261  
+0000073E                           262  ; 68Katy memory map
+0000073E  =00000000                263  ROMBASE     EQU $00000
+0000073E  =00058000                264  PA          EQU $58000
+0000073E  =00078000                265  SERIN       EQU $78000
+0000073E  =0007A000                266  SEROUT      EQU $7A000
+0000073E  =0007C000                267  SERSTATUS_RDF   EQU $7C000
+0000073E  =0007D000                268  SERSTATUS_TXE   EQU $7D000
+0000073E  =0007E000                269  DOUT        EQU $7E000
+0000073E  =00080000                270  RAM         EQU $80000
+0000073E  =000FFFFF                271  RAMTOP      EQU $FFFFF
+0000073E  =00000803                272  SALTO       EQU $803
+0000073E  =00002000                273  INT_ON   EQU  $2000
+0000073E= 49 52 51 31 0D 00        274  IRQ_1 DC.B  'IRQ1',13,0
+00000744= 49 52 51 32 0D 00        275  IRQ_2 DC.B  'IRQ2',13,0
+0000074A= 49 52 51 33 0D 00        276  IRQ_3 DC.B  'IRQ3',13,0
+00000750= 49 52 51 34 0D 00        277  IRQ_4 DC.B  'IRQ4',13,0
+00000756= 49 52 51 35 0D 00        278  IRQ_5 DC.B  'IRQ5',13,0
+0000075C= 49 52 51 36 0D 00        279  IRQ_6 DC.B  'IRQ6',13,0
+00000762= 49 52 51 37 0D 00        280  IRQ_7 DC.B  'IRQ7',13,0
+00000768= 4B 45 59 0D 00           281  KEYPUSHED DC.B  'KEY',13,0
+0000076D= 44 61 6C 69 53 6F ...    282  BOOT_MESSAGE DC.B 'DaliSoft 68008 Based Computer v0.1 9 June 2017',13,0
+0000079D                           283  
+0000079D                           284      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+BOOT_MESSAGE        76D
+DOUT                7E000
+DO_NOTHING          520
+INT_ON              2000
+IRQ1                560
+IRQ1_LOOP           568
+IRQ1_STATUS         57E
+IRQ1_STATUS2        598
+IRQ2                5A4
+IRQ2_LOOP           5AC
+IRQ2_STATUS         5C2
+IRQ2_STATUS2        5DC
+IRQ3                5E8
+IRQ3_LOOP           5F0
+IRQ3_STATUS         606
+IRQ3_STATUS2        620
+IRQ4                62C
+IRQ4_LOOP           634
+IRQ4_STATUS         64A
+IRQ4_STATUS2        664
+IRQ5                670
+IRQ5_LOOP           67A
+IRQ5_STATUS         690
+IRQ5_STATUS2        6AA
+IRQ6                6B6
+IRQ6_LOOP           6BE
+IRQ6_STATUS         6D4
+IRQ6_STATUS2        6EE
+IRQ7                6FA
+IRQ7_LOOP           702
+IRQ7_STATUS         718
+IRQ7_STATUS2        732
+IRQ_1               73E
+IRQ_2               744
+IRQ_3               74A
+IRQ_4               750
+IRQ_5               756
+IRQ_6               75C
+IRQ_7               762
+KEYPUSHED           768
+LOADADDR            0
+LOOP                506
+MAIN                500
+NULL_CHAR           558
+PA                  58000
+PRINTBANNER         540
+PRINTCHAR           528
+PRINTCHARLOOP1      544
+RAM                 80000
+RAMTOP              FFFFF
+READ_STATUS         534
+ROMBASE             0
+SALIR_IRQ1          58C
+SALIR_IRQ2          5D0
+SALIR_IRQ3          614
+SALIR_IRQ4          658
+SALIR_IRQ5          69E
+SALIR_IRQ6          6E2
+SALIR_IRQ7          726
+SALTO               803
+SERIN               78000
+SEROUT              7A000
+SERSTATUS_RDF       7C000
+SERSTATUS_TXE       7D000
+STACK               80800
+START               500

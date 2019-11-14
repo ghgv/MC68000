@@ -1,0 +1,1052 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>G:/GHGV/Proyectos/68008 24ABR18/68008.sch</source>
+    <date>23/04/2018 21:56:56</date>
+    <tool>Eeschema 4.0.7</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>MC68008</title>
+        <company>GHGV</company>
+        <rev>0.1</rev>
+        <date>2017-05-13</date>
+        <source>68008.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="U1">
+      <value>SST39SF040-70-4C-PHE</value>
+      <footprint>680008:DIL32</footprint>
+      <libsource lib="bmow" part="29F040B"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59152817</tstamp>
+    </comp>
+    <comp ref="U3">
+      <value>AS6C4008</value>
+      <footprint>680008:DIL32</footprint>
+      <libsource lib="bmow" part="BS62LV4006"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5915287C</tstamp>
+    </comp>
+    <comp ref="X1">
+      <value>OSCILLATOR</value>
+      <footprint>Oscillators:Oscillator_DIP-14_LargePads</footprint>
+      <libsource lib="68008-rescue" part="OSCILLATOR-RESCUE-68008"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>591528D1</tstamp>
+    </comp>
+    <comp ref="U5">
+      <value>5V DC</value>
+      <footprint>jack:DCJ0202</footprint>
+      <libsource lib="68008-cache" part="DC_Barrel_jack"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59166E00</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59173E69</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59173EE0</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59173F4F</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59173FAA</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>68008D</value>
+      <footprint>680008:DIL48</footprint>
+      <libsource lib="motorola" part="68008D"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>591527E6</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5917A06B</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>CPLD</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x05_Pitch2.54mm</footprint>
+      <libsource lib="68008-cache" part="CONN_02X05"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5917AEC8</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>1K</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5917BA63</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>Power</value>
+      <footprint>LEDs:LED_0805</footprint>
+      <libsource lib="device" part="LED_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5917BB20</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>1K</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5917C38B</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>status</value>
+      <footprint>LEDs:LED_0805</footprint>
+      <libsource lib="device" part="LED_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5917C3DA</tstamp>
+    </comp>
+    <comp ref="U6">
+      <value>FT245R</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x10_Pitch2.54mm</footprint>
+      <libsource lib="68008-cache" part="FT245R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5917FCA1</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>10KR</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59181A5A</tstamp>
+    </comp>
+    <comp ref="U7">
+      <value>reset</value>
+      <footprint>Buttons_Switches_ThroughHole:SW_PUSH_6mm</footprint>
+      <libsource lib="cpld PROGRAMMER_-cache" part="switch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>591845D1</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>R</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>591847B2</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>10uF</value>
+      <footprint>Capacitors_ThroughHole:CP_Radial_D4.0mm_P2.00mm</footprint>
+      <libsource lib="device" part="CP"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>591875FF</tstamp>
+    </comp>
+    <comp ref="U8">
+      <value>EPM7486-84</value>
+      <footprint>Sockets:PLCC84</footprint>
+      <libsource lib="cpld PROGRAMMER_-cache" part="EPM7486-84"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59193993</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>PORTS</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_2x10_Pitch2.54mm</footprint>
+      <libsource lib="68008-cache" part="CONN_02X10"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>591D7406</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="bmow" part="29F040B">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">29F040B</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A18" type="input"/>
+        <pin num="2" name="A16" type="input"/>
+        <pin num="3" name="A15" type="input"/>
+        <pin num="4" name="A12" type="input"/>
+        <pin num="5" name="A7" type="input"/>
+        <pin num="6" name="A6" type="input"/>
+        <pin num="7" name="A5" type="input"/>
+        <pin num="8" name="A4" type="input"/>
+        <pin num="9" name="A3" type="input"/>
+        <pin num="10" name="A2" type="input"/>
+        <pin num="11" name="A1" type="input"/>
+        <pin num="12" name="A0" type="input"/>
+        <pin num="13" name="D0" type="3state"/>
+        <pin num="14" name="D1" type="3state"/>
+        <pin num="15" name="D2" type="3state"/>
+        <pin num="16" name="GND" type="power_in"/>
+        <pin num="17" name="D3" type="3state"/>
+        <pin num="18" name="D4" type="3state"/>
+        <pin num="19" name="D5" type="3state"/>
+        <pin num="20" name="D6" type="3state"/>
+        <pin num="21" name="D7" type="3state"/>
+        <pin num="22" name="CE" type="input"/>
+        <pin num="23" name="A10" type="input"/>
+        <pin num="24" name="OE" type="input"/>
+        <pin num="25" name="A11" type="input"/>
+        <pin num="26" name="A9" type="input"/>
+        <pin num="27" name="A8" type="input"/>
+        <pin num="28" name="A13" type="input"/>
+        <pin num="29" name="A14" type="input"/>
+        <pin num="30" name="A17" type="input"/>
+        <pin num="31" name="WE" type="input"/>
+        <pin num="32" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="motorola" part="68008D">
+      <description>Microprocesseur bus 8 bits</description>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">68008D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A3" type="3state"/>
+        <pin num="2" name="A4" type="3state"/>
+        <pin num="3" name="A5" type="3state"/>
+        <pin num="4" name="A6" type="3state"/>
+        <pin num="5" name="A7" type="3state"/>
+        <pin num="6" name="A8" type="3state"/>
+        <pin num="7" name="A9" type="3state"/>
+        <pin num="8" name="A10" type="3state"/>
+        <pin num="9" name="A11" type="3state"/>
+        <pin num="10" name="A12" type="3state"/>
+        <pin num="11" name="A13" type="3state"/>
+        <pin num="12" name="A14" type="3state"/>
+        <pin num="13" name="VCC" type="power_in"/>
+        <pin num="14" name="A15" type="3state"/>
+        <pin num="15" name="GND" type="power_in"/>
+        <pin num="16" name="A16" type="3state"/>
+        <pin num="17" name="A17" type="3state"/>
+        <pin num="18" name="A18" type="3state"/>
+        <pin num="19" name="A19" type="3state"/>
+        <pin num="20" name="D7" type="3state"/>
+        <pin num="21" name="D6" type="3state"/>
+        <pin num="22" name="D5" type="3state"/>
+        <pin num="23" name="D4" type="3state"/>
+        <pin num="24" name="D3" type="3state"/>
+        <pin num="25" name="D2" type="3state"/>
+        <pin num="26" name="D1" type="3state"/>
+        <pin num="27" name="D0" type="3state"/>
+        <pin num="28" name="AS" type="3state"/>
+        <pin num="29" name="DS" type="3state"/>
+        <pin num="30" name="R/W" type="3state"/>
+        <pin num="31" name="DTACK" type="input"/>
+        <pin num="32" name="BG" type="output"/>
+        <pin num="33" name="BR" type="input"/>
+        <pin num="34" name="CLK" type="input"/>
+        <pin num="35" name="GND" type="power_in"/>
+        <pin num="36" name="HALT" type="BiDi"/>
+        <pin num="37" name="RESET" type="BiDi"/>
+        <pin num="38" name="E" type="output"/>
+        <pin num="39" name="VPA" type="input"/>
+        <pin num="40" name="BERR" type="input"/>
+        <pin num="41" name="IPL1" type="input"/>
+        <pin num="42" name="IPL0/2" type="input"/>
+        <pin num="43" name="FC2" type="output"/>
+        <pin num="44" name="FC1" type="output"/>
+        <pin num="45" name="FC0" type="output"/>
+        <pin num="46" name="A0" type="3state"/>
+        <pin num="47" name="A1" type="3state"/>
+        <pin num="48" name="A2" type="3state"/>
+      </pins>
+    </libpart>
+    <libpart lib="bmow" part="BS62LV4006">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">BS62LV4006</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A18" type="input"/>
+        <pin num="2" name="A16" type="input"/>
+        <pin num="3" name="A14" type="input"/>
+        <pin num="4" name="A12" type="input"/>
+        <pin num="5" name="A7" type="input"/>
+        <pin num="6" name="A6" type="input"/>
+        <pin num="7" name="A5" type="input"/>
+        <pin num="8" name="A4" type="input"/>
+        <pin num="9" name="A3" type="input"/>
+        <pin num="10" name="A2" type="input"/>
+        <pin num="11" name="A1" type="input"/>
+        <pin num="12" name="A0" type="input"/>
+        <pin num="13" name="D0" type="3state"/>
+        <pin num="14" name="D1" type="3state"/>
+        <pin num="15" name="D2" type="3state"/>
+        <pin num="16" name="GND" type="power_in"/>
+        <pin num="17" name="D3" type="3state"/>
+        <pin num="18" name="D4" type="3state"/>
+        <pin num="19" name="D5" type="3state"/>
+        <pin num="20" name="D6" type="3state"/>
+        <pin num="21" name="D7" type="3state"/>
+        <pin num="22" name="CE" type="input"/>
+        <pin num="23" name="A10" type="input"/>
+        <pin num="24" name="OE" type="input"/>
+        <pin num="25" name="A11" type="input"/>
+        <pin num="26" name="A9" type="input"/>
+        <pin num="27" name="A8" type="input"/>
+        <pin num="28" name="A13" type="input"/>
+        <pin num="29" name="WE" type="input"/>
+        <pin num="30" name="A17" type="input"/>
+        <pin num="31" name="A15" type="input"/>
+        <pin num="32" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="68008-cache" part="CONN_02X05">
+      <footprints>
+        <fp>Pin_Header_Straight_2X*</fp>
+        <fp>Pin_Header_Angled_2X*</fp>
+        <fp>Socket_Strip_Straight_2X*</fp>
+        <fp>Socket_Strip_Angled_2X*</fp>
+        <fp>IDC_Header_Straight_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">CONN_02X05</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
+        <pin num="9" name="P9" type="passive"/>
+        <pin num="10" name="P10" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="68008-cache" part="CONN_02X10">
+      <footprints>
+        <fp>Pin_Header_Straight_2X*</fp>
+        <fp>Pin_Header_Angled_2X*</fp>
+        <fp>Socket_Strip_Straight_2X*</fp>
+        <fp>Socket_Strip_Angled_2X*</fp>
+        <fp>IDC_Header_Straight_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">CONN_02X10</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
+        <pin num="9" name="P9" type="passive"/>
+        <pin num="10" name="P10" type="passive"/>
+        <pin num="11" name="P11" type="passive"/>
+        <pin num="12" name="P12" type="passive"/>
+        <pin num="13" name="P13" type="passive"/>
+        <pin num="14" name="P14" type="passive"/>
+        <pin num="15" name="P15" type="passive"/>
+        <pin num="16" name="P16" type="passive"/>
+        <pin num="17" name="P17" type="passive"/>
+        <pin num="18" name="P18" type="passive"/>
+        <pin num="19" name="P19" type="passive"/>
+        <pin num="20" name="P20" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="CP">
+      <description>Polarised capacitor</description>
+      <footprints>
+        <fp>CP_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">CP</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="68008-cache" part="DC_Barrel_jack">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">DC_Barrel_jack</field>
+      </fields>
+      <pins>
+        <pin num="1" name="POWER" type="power_out"/>
+        <pin num="2" name="2" type="input"/>
+        <pin num="3" name="GND" type="power_out"/>
+      </pins>
+    </libpart>
+    <libpart lib="cpld PROGRAMMER_-cache" part="EPM7486-84">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">EPM7486-84</field>
+      </fields>
+      <pins>
+        <pin num="1" name="INPUT/GLCRN" type="input"/>
+        <pin num="2" name="INPUT/OE2/(GCLK2)(" type="input"/>
+        <pin num="3" name="VCC" type="power_in"/>
+        <pin num="4" name="IO1" type="BiDi"/>
+        <pin num="5" name="IO5" type="BiDi"/>
+        <pin num="6" name="IO6" type="BiDi"/>
+        <pin num="7" name="GND" type="power_in"/>
+        <pin num="8" name="IO8" type="BiDi"/>
+        <pin num="9" name="IO9" type="BiDi"/>
+        <pin num="10" name="IO10" type="BiDi"/>
+        <pin num="11" name="IO11" type="BiDi"/>
+        <pin num="12" name="IO12" type="BiDi"/>
+        <pin num="13" name="VCC" type="BiDi"/>
+        <pin num="14" name="TDI" type="BiDi"/>
+        <pin num="15" name="IO15" type="BiDi"/>
+        <pin num="16" name="IO16" type="BiDi"/>
+        <pin num="17" name="IO17" type="BiDi"/>
+        <pin num="18" name="IO18" type="BiDi"/>
+        <pin num="19" name="GND" type="BiDi"/>
+        <pin num="20" name="IO20" type="BiDi"/>
+        <pin num="21" name="IO21" type="BiDi"/>
+        <pin num="22" name="IO22" type="BiDi"/>
+        <pin num="23" name="TMS" type="BiDi"/>
+        <pin num="24" name="IO24" type="BiDi"/>
+        <pin num="25" name="IO25" type="BiDi"/>
+        <pin num="26" name="VCC" type="BiDi"/>
+        <pin num="27" name="IO27" type="BiDi"/>
+        <pin num="28" name="IO28" type="BiDi"/>
+        <pin num="29" name="IO29" type="BiDi"/>
+        <pin num="30" name="IO30" type="BiDi"/>
+        <pin num="31" name="IO31" type="BiDi"/>
+        <pin num="32" name="GND" type="power_in"/>
+        <pin num="33" name="IO33" type="BiDi"/>
+        <pin num="34" name="IO34" type="BiDi"/>
+        <pin num="35" name="IO35" type="BiDi"/>
+        <pin num="36" name="IO36" type="BiDi"/>
+        <pin num="37" name="IO37" type="BiDi"/>
+        <pin num="38" name="VCC" type="power_in"/>
+        <pin num="39" name="IO39" type="BiDi"/>
+        <pin num="40" name="IO40" type="BiDi"/>
+        <pin num="41" name="IO41" type="BiDi"/>
+        <pin num="42" name="GND" type="BiDi"/>
+        <pin num="43" name="VCC" type="power_in"/>
+        <pin num="44" name="IO44" type="BiDi"/>
+        <pin num="45" name="IO45" type="BiDi"/>
+        <pin num="46" name="IO46" type="BiDi"/>
+        <pin num="47" name="GND" type="power_in"/>
+        <pin num="48" name="IO48" type="BiDi"/>
+        <pin num="49" name="IO49" type="BiDi"/>
+        <pin num="50" name="IO50" type="BiDi"/>
+        <pin num="51" name="IO51" type="BiDi"/>
+        <pin num="52" name="IO52" type="BiDi"/>
+        <pin num="53" name="VCC" type="power_in"/>
+        <pin num="54" name="IO54" type="BiDi"/>
+        <pin num="55" name="IO55" type="BiDi"/>
+        <pin num="56" name="IO56" type="BiDi"/>
+        <pin num="57" name="IO57" type="BiDi"/>
+        <pin num="58" name="IO58" type="BiDi"/>
+        <pin num="59" name="GND" type="BiDi"/>
+        <pin num="60" name="IO60" type="BiDi"/>
+        <pin num="61" name="IO61" type="BiDi"/>
+        <pin num="62" name="TCK" type="BiDi"/>
+        <pin num="63" name="IO63" type="BiDi"/>
+        <pin num="64" name="IO64" type="BiDi"/>
+        <pin num="65" name="IO65" type="BiDi"/>
+        <pin num="66" name="VCC" type="BiDi"/>
+        <pin num="67" name="IO67" type="BiDi"/>
+        <pin num="68" name="IO68" type="BiDi"/>
+        <pin num="70" name="IO70" type="BiDi"/>
+        <pin num="71" name="TDO" type="BiDi"/>
+        <pin num="72" name="GND" type="power_in"/>
+        <pin num="73" name="IO73" type="BiDi"/>
+        <pin num="74" name="IO74" type="BiDi"/>
+        <pin num="75" name="IO75" type="BiDi"/>
+        <pin num="76" name="IO76" type="input"/>
+        <pin num="78" name="VCC" type="power_in"/>
+        <pin num="79" name="IO79" type="input"/>
+        <pin num="80" name="IO80" type="input"/>
+        <pin num="81" name="IO81" type="input"/>
+        <pin num="82" name="GND" type="input"/>
+        <pin num="83" name="NPUT/GCLK1" type="input"/>
+        <pin num="84" name="NPUT/OE1" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="68008-cache" part="FT245R">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">FT245R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="D7" type="BiDi"/>
+        <pin num="2" name="RD#" type="BiDi"/>
+        <pin num="3" name="D6" type="BiDi"/>
+        <pin num="4" name="WR#" type="BiDi"/>
+        <pin num="5" name="D5" type="BiDi"/>
+        <pin num="6" name="RXF#" type="BiDi"/>
+        <pin num="7" name="D4" type="BiDi"/>
+        <pin num="8" name="TXE" type="BiDi"/>
+        <pin num="9" name="D3" type="BiDi"/>
+        <pin num="10" name="PWREN#" type="BiDi"/>
+        <pin num="11" name="D2" type="BiDi"/>
+        <pin num="12" name="RST#" type="BiDi"/>
+        <pin num="13" name="D1" type="BiDi"/>
+        <pin num="14" name="NC" type="NotConnected"/>
+        <pin num="15" name="D0" type="BiDi"/>
+        <pin num="16" name="NC" type="NotConnected"/>
+        <pin num="17" name="GND" type="BiDi"/>
+        <pin num="18" name="GND" type="input"/>
+        <pin num="19" name="VCCIO" type="BiDi"/>
+        <pin num="20" name="VCCIO" type="BiDi"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="LED_Small">
+      <description>LED, small symbol</description>
+      <footprints>
+        <fp>LED-*</fp>
+        <fp>LED_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="68008-rescue" part="OSCILLATOR-RESCUE-68008">
+      <footprints>
+        <fp>Pin_Header_Straight_2X02</fp>
+        <fp>Pin_Header_Angled_2X02</fp>
+        <fp>Socket_Strip_Straight_2X02</fp>
+        <fp>Socket_Strip_Angled_2X02</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">X</field>
+        <field name="Value">OSCILLATOR-RESCUE-68008</field>
+      </fields>
+      <pins>
+        <pin num="1" name="NC" type="passive"/>
+        <pin num="7" name="GND" type="passive"/>
+        <pin num="8" name="CLK" type="passive"/>
+        <pin num="14" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="cpld PROGRAMMER_-cache" part="switch">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">switch</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="BiDi"/>
+        <pin num="2" name="B" type="BiDi"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="device">
+      <uri>C:\Program Files\KiCad\share\kicad\library\device.lib</uri>
+    </library>
+    <library logical="bmow">
+      <uri>G:\GHGV\Proyectos\68008 24ABR18\bmow.lib</uri>
+    </library>
+    <library logical="cpld PROGRAMMER_-cache">
+      <uri>G:\GHGV\Proyectos\68008 24ABR18\export\cpld PROGRAMMER_-cache.lib</uri>
+    </library>
+    <library logical="68008-cache">
+      <uri>G:\GHGV\Proyectos\68008 24ABR18\68008-cache.lib</uri>
+    </library>
+    <library logical="68008-rescue">
+      <uri>G:\GHGV\Proyectos\68008 24ABR18\68008-rescue.lib</uri>
+    </library>
+    <library logical="motorola">
+      <uri>C:\Program Files\KiCad\share\kicad\library\motorola.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(U8-Pad84)">
+      <node ref="U8" pin="84"/>
+    </net>
+    <net code="2" name="VCC">
+      <node ref="U8" pin="3"/>
+      <node ref="U8" pin="26"/>
+      <node ref="U8" pin="66"/>
+      <node ref="U5" pin="1"/>
+      <node ref="U3" pin="32"/>
+      <node ref="R5" pin="1"/>
+      <node ref="R1" pin="1"/>
+      <node ref="R2" pin="1"/>
+      <node ref="U6" pin="12"/>
+      <node ref="R4" pin="1"/>
+      <node ref="R7" pin="1"/>
+      <node ref="R6" pin="1"/>
+      <node ref="U8" pin="78"/>
+      <node ref="U8" pin="38"/>
+      <node ref="R9" pin="2"/>
+      <node ref="X1" pin="14"/>
+      <node ref="J1" pin="4"/>
+      <node ref="U2" pin="13"/>
+      <node ref="U2" pin="40"/>
+      <node ref="J1" pin="6"/>
+      <node ref="U8" pin="43"/>
+      <node ref="U2" pin="33"/>
+      <node ref="U8" pin="53"/>
+      <node ref="J2" pin="20"/>
+      <node ref="U8" pin="13"/>
+      <node ref="U1" pin="32"/>
+    </net>
+    <net code="3" name="GND">
+      <node ref="U2" pin="15"/>
+      <node ref="D1" pin="1"/>
+      <node ref="R3" pin="1"/>
+      <node ref="X1" pin="7"/>
+      <node ref="U6" pin="18"/>
+      <node ref="U3" pin="16"/>
+      <node ref="U1" pin="16"/>
+      <node ref="J1" pin="2"/>
+      <node ref="J1" pin="10"/>
+      <node ref="U2" pin="35"/>
+      <node ref="C1" pin="2"/>
+      <node ref="J2" pin="19"/>
+      <node ref="U7" pin="2"/>
+      <node ref="U8" pin="47"/>
+      <node ref="U8" pin="59"/>
+      <node ref="U8" pin="32"/>
+      <node ref="U8" pin="7"/>
+      <node ref="U8" pin="42"/>
+      <node ref="U8" pin="82"/>
+      <node ref="U8" pin="72"/>
+      <node ref="U5" pin="3"/>
+      <node ref="U6" pin="17"/>
+      <node ref="U8" pin="19"/>
+    </net>
+    <net code="4" name="/TDI">
+      <node ref="J1" pin="9"/>
+      <node ref="R5" pin="2"/>
+      <node ref="U8" pin="14"/>
+    </net>
+    <net code="5" name="Net-(U6-Pad16)">
+      <node ref="U6" pin="16"/>
+    </net>
+    <net code="6" name="Net-(U6-Pad14)">
+      <node ref="U6" pin="14"/>
+    </net>
+    <net code="7" name="Net-(J1-Pad7)">
+      <node ref="J1" pin="7"/>
+    </net>
+    <net code="8" name="Net-(J1-Pad8)">
+      <node ref="J1" pin="8"/>
+    </net>
+    <net code="9" name="Net-(D1-Pad2)">
+      <node ref="R6" pin="2"/>
+      <node ref="D1" pin="2"/>
+    </net>
+    <net code="10" name="Net-(D2-Pad2)">
+      <node ref="D2" pin="2"/>
+      <node ref="R7" pin="2"/>
+    </net>
+    <net code="11" name="/STATUS">
+      <node ref="D2" pin="1"/>
+      <node ref="U8" pin="40"/>
+    </net>
+    <net code="12" name="Net-(R8-Pad1)">
+      <node ref="U6" pin="10"/>
+      <node ref="R8" pin="1"/>
+    </net>
+    <net code="13" name="/OE">
+      <node ref="U3" pin="24"/>
+      <node ref="U8" pin="15"/>
+      <node ref="U1" pin="24"/>
+    </net>
+    <net code="14" name="/BTN">
+      <node ref="U8" pin="33"/>
+      <node ref="U7" pin="1"/>
+      <node ref="C1" pin="1"/>
+      <node ref="R9" pin="1"/>
+    </net>
+    <net code="15" name="Net-(U8-Pad1)">
+      <node ref="U8" pin="1"/>
+    </net>
+    <net code="16" name="/D3">
+      <node ref="U8" pin="46"/>
+      <node ref="U3" pin="17"/>
+      <node ref="U2" pin="24"/>
+      <node ref="U6" pin="9"/>
+      <node ref="U1" pin="17"/>
+    </net>
+    <net code="17" name="/D7">
+      <node ref="U6" pin="1"/>
+      <node ref="U2" pin="20"/>
+      <node ref="U3" pin="21"/>
+      <node ref="U1" pin="21"/>
+      <node ref="U8" pin="51"/>
+    </net>
+    <net code="18" name="/D6">
+      <node ref="U2" pin="21"/>
+      <node ref="U8" pin="50"/>
+      <node ref="U3" pin="20"/>
+      <node ref="U1" pin="20"/>
+      <node ref="U6" pin="3"/>
+    </net>
+    <net code="19" name="/D5">
+      <node ref="U3" pin="19"/>
+      <node ref="U1" pin="19"/>
+      <node ref="U2" pin="22"/>
+      <node ref="U6" pin="5"/>
+      <node ref="U8" pin="49"/>
+    </net>
+    <net code="20" name="/D4">
+      <node ref="U1" pin="18"/>
+      <node ref="U8" pin="48"/>
+      <node ref="U6" pin="7"/>
+      <node ref="U2" pin="23"/>
+      <node ref="U3" pin="18"/>
+    </net>
+    <net code="21" name="/D2">
+      <node ref="U1" pin="15"/>
+      <node ref="U2" pin="25"/>
+      <node ref="U8" pin="45"/>
+      <node ref="U6" pin="11"/>
+      <node ref="U3" pin="15"/>
+    </net>
+    <net code="22" name="/D1">
+      <node ref="U3" pin="14"/>
+      <node ref="U6" pin="13"/>
+      <node ref="U8" pin="44"/>
+      <node ref="U2" pin="26"/>
+      <node ref="U1" pin="14"/>
+    </net>
+    <net code="23" name="/D0">
+      <node ref="U8" pin="35"/>
+      <node ref="U6" pin="15"/>
+      <node ref="U2" pin="27"/>
+      <node ref="U1" pin="13"/>
+      <node ref="U3" pin="13"/>
+    </net>
+    <net code="24" name="/VCCIO">
+      <node ref="R8" pin="2"/>
+      <node ref="U6" pin="20"/>
+      <node ref="U6" pin="19"/>
+    </net>
+    <net code="25" name="/RXF">
+      <node ref="U6" pin="6"/>
+      <node ref="U8" pin="17"/>
+    </net>
+    <net code="26" name="/TXE">
+      <node ref="U6" pin="8"/>
+      <node ref="U8" pin="20"/>
+    </net>
+    <net code="27" name="/RD">
+      <node ref="U8" pin="16"/>
+      <node ref="U6" pin="2"/>
+    </net>
+    <net code="28" name="/WR">
+      <node ref="U6" pin="4"/>
+      <node ref="U8" pin="41"/>
+    </net>
+    <net code="29" name="/PB4">
+      <node ref="U8" pin="74"/>
+      <node ref="J2" pin="13"/>
+    </net>
+    <net code="30" name="/PB5">
+      <node ref="J2" pin="14"/>
+      <node ref="U8" pin="75"/>
+    </net>
+    <net code="31" name="/PB6">
+      <node ref="U8" pin="76"/>
+      <node ref="J2" pin="15"/>
+    </net>
+    <net code="32" name="/PB3">
+      <node ref="U8" pin="73"/>
+      <node ref="J2" pin="12"/>
+    </net>
+    <net code="33" name="/PA0">
+      <node ref="U8" pin="52"/>
+      <node ref="J2" pin="1"/>
+    </net>
+    <net code="34" name="/PA1">
+      <node ref="U8" pin="54"/>
+      <node ref="J2" pin="2"/>
+    </net>
+    <net code="35" name="/PA4">
+      <node ref="U8" pin="57"/>
+      <node ref="J2" pin="5"/>
+    </net>
+    <net code="36" name="/PA5">
+      <node ref="U8" pin="58"/>
+      <node ref="J2" pin="6"/>
+    </net>
+    <net code="37" name="/PA6">
+      <node ref="U8" pin="60"/>
+      <node ref="J2" pin="7"/>
+    </net>
+    <net code="38" name="/PA7">
+      <node ref="U8" pin="61"/>
+      <node ref="J2" pin="8"/>
+    </net>
+    <net code="39" name="/A11">
+      <node ref="U2" pin="9"/>
+      <node ref="U3" pin="25"/>
+      <node ref="U1" pin="25"/>
+      <node ref="U8" pin="63"/>
+    </net>
+    <net code="40" name="/A0">
+      <node ref="U1" pin="12"/>
+      <node ref="U3" pin="12"/>
+      <node ref="U2" pin="46"/>
+      <node ref="U8" pin="64"/>
+    </net>
+    <net code="41" name="/A1">
+      <node ref="U1" pin="11"/>
+      <node ref="U2" pin="47"/>
+      <node ref="U3" pin="11"/>
+      <node ref="U8" pin="65"/>
+    </net>
+    <net code="42" name="/PA2">
+      <node ref="J2" pin="3"/>
+      <node ref="U8" pin="55"/>
+    </net>
+    <net code="43" name="/PB0">
+      <node ref="J2" pin="9"/>
+      <node ref="U8" pin="67"/>
+    </net>
+    <net code="44" name="/PB1">
+      <node ref="J2" pin="10"/>
+      <node ref="U8" pin="68"/>
+    </net>
+    <net code="45" name="/PB2">
+      <node ref="J2" pin="11"/>
+      <node ref="U8" pin="70"/>
+    </net>
+    <net code="46" name="/INTR2">
+      <node ref="J2" pin="18"/>
+      <node ref="U8" pin="81"/>
+    </net>
+    <net code="47" name="/INTR1">
+      <node ref="J2" pin="17"/>
+      <node ref="U8" pin="80"/>
+    </net>
+    <net code="48" name="/PB7">
+      <node ref="J2" pin="16"/>
+      <node ref="U8" pin="79"/>
+    </net>
+    <net code="49" name="Net-(X1-Pad1)">
+      <node ref="X1" pin="1"/>
+    </net>
+    <net code="50" name="/PA3">
+      <node ref="J2" pin="4"/>
+      <node ref="U8" pin="56"/>
+    </net>
+    <net code="51" name="/CLK">
+      <node ref="X1" pin="8"/>
+      <node ref="U8" pin="2"/>
+      <node ref="U2" pin="34"/>
+      <node ref="U8" pin="83"/>
+      <node ref="U8" pin="34"/>
+    </net>
+    <net code="52" name="/IPL1">
+      <node ref="U8" pin="11"/>
+      <node ref="U2" pin="41"/>
+    </net>
+    <net code="53" name="/IPL2">
+      <node ref="U8" pin="12"/>
+      <node ref="U2" pin="42"/>
+    </net>
+    <net code="54" name="/HALT">
+      <node ref="R2" pin="2"/>
+      <node ref="U2" pin="36"/>
+      <node ref="U8" pin="10"/>
+    </net>
+    <net code="55" name="/RESET">
+      <node ref="U2" pin="37"/>
+      <node ref="U8" pin="18"/>
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="56" name="/VPA">
+      <node ref="U2" pin="39"/>
+      <node ref="U8" pin="21"/>
+    </net>
+    <net code="57" name="/A19">
+      <node ref="U2" pin="19"/>
+      <node ref="U8" pin="22"/>
+    </net>
+    <net code="58" name="/A18">
+      <node ref="U8" pin="24"/>
+      <node ref="U2" pin="18"/>
+      <node ref="U1" pin="1"/>
+      <node ref="U3" pin="1"/>
+    </net>
+    <net code="59" name="/TDO">
+      <node ref="U8" pin="71"/>
+      <node ref="J1" pin="3"/>
+    </net>
+    <net code="60" name="/TCK">
+      <node ref="U8" pin="62"/>
+      <node ref="R3" pin="2"/>
+      <node ref="J1" pin="1"/>
+    </net>
+    <net code="61" name="/TMS">
+      <node ref="U8" pin="23"/>
+      <node ref="J1" pin="5"/>
+      <node ref="R4" pin="2"/>
+    </net>
+    <net code="62" name="/AS">
+      <node ref="U8" pin="4"/>
+      <node ref="U2" pin="28"/>
+    </net>
+    <net code="63" name="/CERAM">
+      <node ref="U8" pin="5"/>
+      <node ref="U1" pin="22"/>
+    </net>
+    <net code="64" name="/CEROM">
+      <node ref="U8" pin="6"/>
+      <node ref="U3" pin="22"/>
+    </net>
+    <net code="65" name="/DS">
+      <node ref="U8" pin="8"/>
+      <node ref="U2" pin="29"/>
+    </net>
+    <net code="66" name="/DTACK">
+      <node ref="U8" pin="9"/>
+      <node ref="U2" pin="31"/>
+    </net>
+    <net code="67" name="/A16">
+      <node ref="U1" pin="2"/>
+      <node ref="U2" pin="16"/>
+      <node ref="U8" pin="27"/>
+      <node ref="U3" pin="2"/>
+    </net>
+    <net code="68" name="/A17">
+      <node ref="U2" pin="17"/>
+      <node ref="U8" pin="25"/>
+      <node ref="U3" pin="30"/>
+      <node ref="U1" pin="30"/>
+    </net>
+    <net code="69" name="/A15">
+      <node ref="U3" pin="31"/>
+      <node ref="U1" pin="3"/>
+      <node ref="U8" pin="28"/>
+      <node ref="U2" pin="14"/>
+    </net>
+    <net code="70" name="/A14">
+      <node ref="U3" pin="3"/>
+      <node ref="U1" pin="29"/>
+      <node ref="U8" pin="29"/>
+      <node ref="U2" pin="12"/>
+    </net>
+    <net code="71" name="/A13">
+      <node ref="U8" pin="30"/>
+      <node ref="U1" pin="28"/>
+      <node ref="U2" pin="11"/>
+      <node ref="U3" pin="28"/>
+    </net>
+    <net code="72" name="/A12">
+      <node ref="U2" pin="10"/>
+      <node ref="U8" pin="31"/>
+      <node ref="U1" pin="4"/>
+      <node ref="U3" pin="4"/>
+    </net>
+    <net code="73" name="/FC0">
+      <node ref="U8" pin="36"/>
+      <node ref="U2" pin="45"/>
+    </net>
+    <net code="74" name="/FC1">
+      <node ref="U2" pin="44"/>
+      <node ref="U8" pin="37"/>
+    </net>
+    <net code="75" name="/RW">
+      <node ref="U2" pin="30"/>
+      <node ref="U1" pin="31"/>
+      <node ref="U8" pin="39"/>
+      <node ref="U3" pin="29"/>
+    </net>
+    <net code="76" name="Net-(U2-Pad43)">
+      <node ref="U2" pin="43"/>
+    </net>
+    <net code="77" name="Net-(U5-Pad2)">
+      <node ref="U5" pin="2"/>
+    </net>
+    <net code="78" name="/A2">
+      <node ref="U1" pin="10"/>
+      <node ref="U3" pin="10"/>
+      <node ref="U2" pin="48"/>
+    </net>
+    <net code="79" name="/A7">
+      <node ref="U2" pin="5"/>
+      <node ref="U1" pin="5"/>
+      <node ref="U3" pin="5"/>
+    </net>
+    <net code="80" name="/A6">
+      <node ref="U1" pin="6"/>
+      <node ref="U3" pin="6"/>
+      <node ref="U2" pin="4"/>
+    </net>
+    <net code="81" name="/A5">
+      <node ref="U3" pin="7"/>
+      <node ref="U1" pin="7"/>
+      <node ref="U2" pin="3"/>
+    </net>
+    <net code="82" name="/A4">
+      <node ref="U1" pin="8"/>
+      <node ref="U3" pin="8"/>
+      <node ref="U2" pin="2"/>
+    </net>
+    <net code="83" name="/A3">
+      <node ref="U3" pin="9"/>
+      <node ref="U1" pin="9"/>
+      <node ref="U2" pin="1"/>
+    </net>
+    <net code="84" name="/A10">
+      <node ref="U1" pin="23"/>
+      <node ref="U2" pin="8"/>
+      <node ref="U3" pin="23"/>
+    </net>
+    <net code="85" name="/A9">
+      <node ref="U3" pin="26"/>
+      <node ref="U2" pin="7"/>
+      <node ref="U1" pin="26"/>
+    </net>
+    <net code="86" name="/A8">
+      <node ref="U2" pin="6"/>
+      <node ref="U3" pin="27"/>
+      <node ref="U1" pin="27"/>
+    </net>
+    <net code="87" name="Net-(U2-Pad32)">
+      <node ref="U2" pin="32"/>
+    </net>
+    <net code="88" name="Net-(U2-Pad38)">
+      <node ref="U2" pin="38"/>
+    </net>
+  </nets>
+</export>

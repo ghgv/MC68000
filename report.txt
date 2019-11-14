@@ -1,0 +1,340 @@
+Información: Leyendo el archivo de lista de redes "C:\Users\German\Documents\KiCad\68008\68008.net".
+
+Información: Utilizando referencias para combinar componentes y huellas.
+
+Información: Comprobando la huella del componente de la red "U1:/59152817:680008:DIL32".
+
+Añadiendo del nuevo componente "U1:/59152817" la huella "680008:DIL32".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "1" de "" a "/A18".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "2" de "" a "/A16".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "3" de "" a "/A15".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "4" de "" a "/A12".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "5" de "" a "/A7".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "6" de "" a "/A6".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "7" de "" a "/A5".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "8" de "" a "/A4".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "9" de "" a "/A3".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "10" de "" a "/A2".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "11" de "" a "/A1".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "12" de "" a "/A0".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "13" de "" a "/D0".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "14" de "" a "/D1".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "15" de "" a "/D2".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "16" de "" a "GND".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "17" de "" a "/D3".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "18" de "" a "/D4".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "19" de "" a "/D5".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "20" de "" a "/D6".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "21" de "" a "/D7".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "22" de "" a "/CE_29".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "23" de "" a "/A10".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "24" de "" a "/OE_29".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "25" de "" a "/A11".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "26" de "" a "/A9".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "27" de "" a "/A8".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "28" de "" a "/A13".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "29" de "" a "/A14".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "30" de "" a "/A17".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "31" de "" a "/WE_29".
+
+Cambiando del componente "U1:/59152817" el nombre de la red del pin "32" de "" a "VCC".
+
+Información: Comprobando la huella del componente de la red "U2:/591527E6:680008:DIL48".
+
+Añadiendo del nuevo componente "U2:/591527E6" la huella "680008:DIL48".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "1" de "" a "/A3".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "2" de "" a "/A4".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "3" de "" a "/A5".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "4" de "" a "/A6".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "5" de "" a "/A7".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "6" de "" a "/A8".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "7" de "" a "/A9".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "8" de "" a "/A10".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "9" de "" a "/A11".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "10" de "" a "/A12".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "11" de "" a "/A13".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "12" de "" a "/A14".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "13" de "" a "VCC".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "14" de "" a "/A15".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "15" de "" a "GND".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "16" de "" a "/A16".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "17" de "" a "/A17".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "18" de "" a "/A18".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "19" de "" a "/A19".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "20" de "" a "/D7".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "21" de "" a "/D6".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "22" de "" a "/D5".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "23" de "" a "/D4".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "24" de "" a "/D3".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "25" de "" a "/D2".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "26" de "" a "/D1".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "27" de "" a "/D0".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "28" de "" a "/AS".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "29" de "" a "/DS".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "30" de "" a "/RW".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "31" de "" a "/DTACK".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "32" de "" a "/BG".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "33" de "" a "/BR".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "34" de "" a "/CLK".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "35" de "" a "GND".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "36" de "" a "/HALT".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "37" de "" a "/RESET".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "38" de "" a "Net-(U2-Pad38)".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "39" de "" a "Net-(U2-Pad39)".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "40" de "" a "/BERR".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "41" de "" a "/IPL1".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "42" de "" a "/IPL0".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "43" de "" a "/FC2".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "44" de "" a "/FC1".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "45" de "" a "/FC0".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "46" de "" a "/A0".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "47" de "" a "/A1".
+
+Cambiando del componente "U2:/591527E6" el nombre de la red del pin "48" de "" a "/A2".
+
+Información: Comprobando la huella del componente de la red "U3:/5915287C:680008:DIL32".
+
+Añadiendo del nuevo componente "U3:/5915287C" la huella "680008:DIL32".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "1" de "" a "/A18".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "2" de "" a "/A16".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "3" de "" a "/A14".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "4" de "" a "/A12".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "5" de "" a "/A7".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "6" de "" a "/A6".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "7" de "" a "/A5".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "8" de "" a "/A4".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "9" de "" a "/A3".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "10" de "" a "/A2".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "11" de "" a "/A1".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "12" de "" a "/A0".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "13" de "" a "/D0".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "14" de "" a "/D1".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "15" de "" a "/D2".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "16" de "" a "GND".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "17" de "" a "/D3".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "18" de "" a "/D4".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "19" de "" a "/D5".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "20" de "" a "/D6".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "21" de "" a "/D7".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "22" de "" a "/CE".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "23" de "" a "/A10".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "24" de "" a "/OE".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "25" de "" a "/A11".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "26" de "" a "/A9".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "27" de "" a "/A8".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "28" de "" a "/A13".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "29" de "" a "/WE".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "30" de "" a "/A17".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "31" de "" a "/A15".
+
+Cambiando del componente "U3:/5915287C" el nombre de la red del pin "32" de "" a "VCC".
+
+Información: Comprobando la huella del componente de la red "U4:/59155608:mod:PLCC44".
+
+Añadiendo del nuevo componente "U4:/59155608" la huella "mod:PLCC44".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "1" de "" a "Net-(U4-Pad1)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "2" de "" a "Net-(U4-Pad2)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "3" de "" a "VCC".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "4" de "" a "Net-(U4-Pad4)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "5" de "" a "Net-(U4-Pad5)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "6" de "" a "Net-(U4-Pad6)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "7" de "" a "Net-(U4-Pad7)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "8" de "" a "Net-(U4-Pad8)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "9" de "" a "Net-(U4-Pad9)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "11" de "" a "Net-(U4-Pad11)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "12" de "" a "Net-(U4-Pad12)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "13" de "" a "Net-(U4-Pad13)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "14" de "" a "Net-(U4-Pad14)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "16" de "" a "Net-(U4-Pad16)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "17" de "" a "Net-(U4-Pad17)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "18" de "" a "Net-(U4-Pad18)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "19" de "" a "Net-(U4-Pad19)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "20" de "" a "Net-(U4-Pad20)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "21" de "" a "Net-(U4-Pad21)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "24" de "" a "Net-(U4-Pad24)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "25" de "" a "Net-(U4-Pad25)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "26" de "" a "Net-(U4-Pad26)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "27" de "" a "Net-(U4-Pad27)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "28" de "" a "Net-(U4-Pad28)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "29" de "" a "Net-(U4-Pad29)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "31" de "" a "Net-(U4-Pad31)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "32" de "" a "Net-(U4-Pad32)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "33" de "" a "Net-(U4-Pad33)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "34" de "" a "Net-(U4-Pad34)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "36" de "" a "Net-(U4-Pad36)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "37" de "" a "Net-(U4-Pad37)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "38" de "" a "Net-(U4-Pad38)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "39" de "" a "Net-(U4-Pad39)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "40" de "" a "Net-(U4-Pad40)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "41" de "" a "Net-(U4-Pad41)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "43" de "" a "Net-(U4-Pad43)".
+
+Cambiando del componente "U4:/59155608" el nombre de la red del pin "44" de "" a "Net-(U4-Pad44)".
+
+Información: Comprobando la huella del componente de la red "U5:/59166E00:jack:DCJ0202".
+
+Añadiendo del nuevo componente "U5:/59166E00" la huella "jack:DCJ0202".
+
+Cambiando del componente "U5:/59166E00" el nombre de la red del pin "1" de "" a "VCC".
+
+Cambiando del componente "U5:/59166E00" el nombre de la red del pin "3" de "" a "GND".
+
+Cambiando del componente "U5:/59166E00" el nombre de la red del pin "2" de "" a "Net-(U5-Pad2)".
+
+Información: Comprobando la huella del componente de la red "X1:/591528D1:Cristal:SG51".
+
+Añadiendo del nuevo componente "X1:/591528D1" la huella "Cristal:SG51".
+
+Cambiando del componente "X1:/591528D1" el nombre de la red del pin "1" de "" a "Net-(X1-Pad1)".
+
+Cambiando del componente "X1:/591528D1" el nombre de la red del pin "8" de "" a "VCC".
+
+Error: No se ha encontrado del componente 'X1' el pad '4' en la huella 'Cristal:SG51'
+
+Error: No se ha encontrado del componente 'X1' el pad '5' en la huella 'Cristal:SG51'
+

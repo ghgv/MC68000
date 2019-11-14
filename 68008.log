@@ -1,0 +1,25 @@
+Parsing error at line: 1406 
+ Parsing error at line: 1413 
+ Parsing error at line: 1413 
+ source {G:\GHGV\Proyectos\68008 24ABR18\68008.region}
+ unit um
+Unnamed Net
+
+____________________________________________________________________________________________
+ELECTRA Version  6.12
+Design        = G:\GHGV\Proyectos\68008 24ABR18\68008.ses
+Report Time   = 21:09:48
+Nets          =      113
+Components    =       34
+Connections   =      243
+Vias          =      162
+Routed Length = 9606217.1 um
+Signal Layers =        2
+Power Layers  =        0
+Total Pins    =      356
+Completion    =  100.00%
+Unroutes      =        0
+
+No Routing History to report
+Selected wires: 112
+Unnamed Net

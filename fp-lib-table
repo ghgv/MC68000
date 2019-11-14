@@ -1,0 +1,11 @@
+(fp_lib_table
+  (lib (name Altera)(type Github)(uri https://github.com/tylercrumpton/CrumpPrints.pretty)(options "")(descr ""))
+  (lib (name Other)(type Github)(uri https://github.com/KiCad/kicad-library/tree/master/library)(options "")(descr ""))
+  (lib (name mod)(type Eagle)(uri C:/Users/German/Documents/KiCad/68008/altera.lbr)(options "")(descr ""))
+  (lib (name jack)(type Eagle)(uri C:/Users/German/Documents/KiCad/68008/DCJ0202.lbr)(options "")(descr ""))
+  (lib (name 680008)(type Eagle)(uri C:/Users/German/Documents/KiCad/68008/export/ic-package.lbr)(options "")(descr ""))
+  (lib (name Cristal)(type Eagle)(uri C:/Users/German/Documents/KiCad/68008/export/crystal.lbr)(options "")(descr ""))
+  (lib (name Altera2)(type Eagle)(uri C:/Users/German/Documents/KiCad/68008/export/altera.lbr)(options "")(descr ""))
+  (lib (name plcc)(type KiCad)(uri C:/Users/German/Documents/KiCad/68008/export/plcc.mod)(options "")(descr ""))
+  (lib (name Dali)(type Eagle)(uri C:/Users/German/Documents/KiCad/68008/dali.lbr)(options "")(descr ""))
+)

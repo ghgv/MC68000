@@ -1,0 +1,17 @@
+### Module positions - created on 07/03/17 18:57:16 ###
+### Printed by Pcbnew version kicad 4.0.6
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val       Package                PosX       PosY       Rot  Side
+D1        Power     LED_0805           132.7150   -86.9950   90.0000  top
+D2        status    LED_0805           127.6350   -86.9950   90.0000  top
+R1        10K       R_0805              91.9480  -111.1250  180.0000  top
+R2        10K       R_0805             121.9200   -86.9950   90.0000  top
+R3        10K       R_0805             142.8750   -86.9950   90.0000  top
+R4        10K       R_0805             137.7950   -86.9950   90.0000  top
+R5        10K       R_0805             116.2050   -86.9950   90.0000  top
+R6        1K        R_0805             147.3200   -88.2650    0.0000  top
+R7        1K        R_0805              96.2660  -111.1250  270.0000  top
+R8        10KR      R_0805             159.3850   -59.0550    0.0000  top
+R9        R         R_0805             159.3850   -64.1350    0.0000  top
+## End
